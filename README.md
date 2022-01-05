@@ -1,2 +1,0 @@
-# duck
-BadUSB Script Converter
