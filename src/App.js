@@ -1,8 +1,11 @@
-import * as React from 'react'
-//import ReactDOM from 'react-dom'
+import React from 'react'
+
+import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
 
+import version from './version.js'
 import digisparkConverter from './modules/digispark.js'
 
 const App = () => {
@@ -18,7 +21,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    <Box>
       <TextField
         multiline
         fullWidth
@@ -33,7 +36,16 @@ const App = () => {
         fullWidth
         value={output}
       />
-    </div>
+
+      { /* Version */}
+      <Typography
+        variant='caption'
+        align='center'
+        display='block'
+        sx={{ color: '#ddd' }}>
+        {version.name}
+      </Typography>
+    </Box>
   )
 }
 
