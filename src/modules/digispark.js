@@ -1,158 +1,26 @@
-// This converter is inspired by and based upon https://github.com/CedArctic/digiQuack
-// digiQuack is licensed under MIT - Copyright (c) 2017 CedArctic
-// Give CedArctic a follow :)
-
-const digisparkTable = {
-    'WINDOWS': '0, MOD_GUI_LEFT',
-    'GUI': '0, MOD_GUI_LEFT',
-    'APP': '101',
-    'MENU': '101',
-    'SHIFT': 'MOD_SHIFT_LEFT',
-    'ALT': 'MOD_ALT_LEFT',
-    'CONTROL': 'MOD_CONTROL_LEFT',
-    'CTRL': 'MOD_CONTROL_LEFT',
-    'DOWNARROW': '81',
-    'DOWN': '81',
-    'LEFTARROW': '80',
-    'LEFT': '80',
-    'RIGHTARROW': '79',
-    'RIGHT': '79',
-    'UPARROW': '82',
-    'UP': '82',
-    'BREAK': '72',
-    'PAUSE': '72',
-    'CAPSLOCK': '57',
-    'DELETE': '42',
-    'END': '42',
-    'ESC': '41',
-    'ESCAPE': '41',
-    'HOME': '74',
-    'NUMLOCK': '83',
-    'PAGEUP': '75',
-    'PAGEDOWN': '78',
-    'PRINTSCREEN': '70',
-    'SCROLLLOCK': '71',
-    'SPACE': '44',
-    'TAB': '43',
-    'ENTER': 'KEY_ENTER',
-    'F1': 'KEY_F1',
-    'F2': 'KEY_F2',
-    'F3': 'KEY_F3',
-    'F4': 'KEY_F4',
-    'F5': 'KEY_F5',
-    'F6': 'KEY_F6',
-    'F7': 'KEY_F7',
-    'F8': 'KEY_F8',
-    'F9': 'KEY_F9',
-    'F10': 'KEY_F10',
-    'F11': 'KEY_F11',
-    'F12': 'KEY_F12',
-    'a': 'KEY_A',
-    'b': 'KEY_B',
-    'c': 'KEY_C',
-    'd': 'KEY_D',
-    'e': 'KEY_E',
-    'f': 'KEY_F',
-    'g': 'KEY_G',
-    'h': 'KEY_H',
-    'i': 'KEY_I',
-    'j': 'KEY_J',
-    'k': 'KEY_K',
-    'l': 'KEY_L',
-    'm': 'KEY_M',
-    'n': 'KEY_N',
-    'o': 'KEY_O',
-    'p': 'KEY_P',
-    'q': 'KEY_Q',
-    'r': 'KEY_R',
-    's': 'KEY_S',
-    't': 'KEY_T',
-    'u': 'KEY_U',
-    'v': 'KEY_V',
-    'w': 'KEY_W',
-    'x': 'KEY_X',
-    'y': 'KEY_Y',
-    'z': 'KEY_Z',
-    'A': 'KEY_A',
-    'B': 'KEY_B',
-    'C': 'KEY_C',
-    'D': 'KEY_D',
-    'E': 'KEY_E',
-    'F': 'KEY_F',
-    'G': 'KEY_G',
-    'H': 'KEY_H',
-    'I': 'KEY_I',
-    'J': 'KEY_J',
-    'K': 'KEY_K',
-    'L': 'KEY_L',
-    'M': 'KEY_M',
-    'N': 'KEY_N',
-    'O': 'KEY_O',
-    'P': 'KEY_P',
-    'Q': 'KEY_Q',
-    'R': 'KEY_R',
-    'S': 'KEY_S',
-    'T': 'KEY_T',
-    'U': 'KEY_U',
-    'V': 'KEY_V',
-    'W': 'KEY_W',
-    'X': 'KEY_X',
-    'Y': 'KEY_Y',
-    'Z': 'KEY_Z',
-    '1': 'KEY_1',
-    '2': 'KEY_2',
-    '3': 'KEY_3',
-    '4': 'KEY_4',
-    '5': 'KEY_5',
-    '6': 'KEY_6',
-    '7': 'KEY_7',
-    '8': 'KEY_8',
-    '9': 'KEY_9',
-    '0': 'KEY_0',
-    '!': '30',
-    '"': '49',
-    '#': '32',
-    '$': '33',
-    '%': '34',
-    '&': '36',
-    '\'': '52',
-    '(': '38',
-    ')': '39',
-    '*': '37',
-    '+': '46',
-    ',': '54',
-    '-': '45',
-    '.': '55',
-    '/': '56',
-    ':': '51',
-    ';': '51',
-    '<': '54',
-    '=': '46',
-    '>': '55',
-    '?': '56',
-    '@': '31',
-    '[': '47',
-    ']': '48',
-    '^': '35',
-    '_': '45',
-    '`': '53',
-    '{': '47',
-    '|': '49',
-    '}': '48',
-    '~': '53'
-}
-
+/*
 const translate = (char, layout) => {
     const key = layout.find(k => k.char === char)
 
     if (key) char = key.us
 
-    if (char in digisparkTable) {
-        return digisparkTable[char]
-    } else {
-        // If it is not in the dictionary
+    if (!(char in digisparkTable)) {
         return 'UNDEFINED_KEY'
     }
+
+    if (key) {
+        let mods = []
+        if (key.shift) mods.push('MOD_SHIFT_LEFT')
+        if (key.alt) mods.push('MOD_ALT_LEFT')
+        if (key.altGr) mods.push('MOD_ALT_RIGHT')
+
+        if (mods.length > 0) {
+            console.log(mods)
+            return `${mods.join('|')},${digisparkTable[char]}`
+        }
+    }
+
+    return digisparkTable[char]
 }
 
 const translateString = (str, layout) => {
@@ -166,7 +34,12 @@ const translateString = (str, layout) => {
                 if (key.comboShift) newStr += key.combo.toUpperCase()
                 else newStr += key.combo
             }
-            newStr += key.us
+
+            if (key.shift) {
+                newStr += key.us.toUpperCase()
+            } else {
+                newStr += key.us
+            }
         } else {
             newStr += char
         }
@@ -174,11 +47,121 @@ const translateString = (str, layout) => {
 
     return newStr
 }
+*/
 
-const digisparkConverter = (script_input, layout) => {
+const modMap = {
+    'LCTRL': 0x01,
+    'LSHIFT': 0x02,
+    'LALT': 0x04,
+    'LMETA': 0x08,
+    'RCTRL': 0x10,
+    'RSHIFT': 0x20,
+    'RALT': 0x40,
+    'RMETA': 0x80,
+}
+
+const keyMap = {
+    'a': 0x04,
+    'b': 0x05,
+    'c': 0x06,
+    'd': 0x07,
+    'e': 0x08,
+    'f': 0x09,
+    'g': 0x0a,
+    'h': 0x0b,
+    'i': 0x0c,
+    'j': 0x0d,
+    'k': 0x0e,
+    'l': 0x0f,
+    'm': 0x10,
+    'n': 0x11,
+    'o': 0x12,
+    'p': 0x13,
+    'q': 0x14,
+    'r': 0x15,
+    's': 0x16,
+    't': 0x17,
+    'u': 0x18,
+    'v': 0x19,
+    'w': 0x1a,
+    'x': 0x1b,
+    'y': 0x1c,
+    'z': 0x1d,
+    ' ': 0x2c,
+    '-': 0x2d,
+    '=': 0x2e,
+    '[': 0x2f,
+    ']': 0x30,
+    '\\': 0x31,
+    '#': 0x32,
+    ';': 0x33,
+    '\'': 0x34,
+    '`': 0x35,
+    ',': 0x36,
+    '.': 0x37,
+    '/': 0x38,
+}
+
+const getKeyValue = (key, char) => {
+    if (key) {
+        return keyMap[key.us] | 0x00
+    } else {
+        return keyMap[char] | 0x00
+    }
+}
+
+const getModValue = (key) => {
+    let value = 0x00
+
+    if(key.shift) value |= modMap['LSHIFT']
+    if(key.alt) value |= modMap['LALT']
+    if(key.altGr) value |= modMap['RALT']
+
+    return value
+}
+
+const byteToStr = (value) => {
+    return `0x${(value < 0x10 ? '0' : '')}${value.toString(16)}`
+}
+
+const digisparkConverter = (scriptInput, layout) => {
+    let output = `// [ ===== Converted using duckify.huhn.me ===== ] //
+
+#include "DigiKeyboard.h"
+
+void type(const uint8_t* keys, size_t len){  
+    for(size_t i=0; i<len; i+=2) {
+        DigiKeyboard.sendKeyStroke(pgm_read_byte_near(keys + i+1),pgm_read_byte_near(keys + i));
+    }
+}
+
+`
+    const arr_name = `key_arr_${0}`
+
+    output += `const uint8_t ${arr_name}[] PROGMEM = {`
+
+    for (const char of scriptInput) {
+        const key = layout.find(key => key.char === char)
+        const value = getKeyValue(key, char)
+        let modValue = key ? getModValue(key) : 0x00
+
+        output += `${byteToStr(modValue)},${byteToStr(value)}, `
+    }
+
+    output = `${output.slice(0, -2)}};\n`
+
+    output += '\n'
+    output += 'void setup() {\n'
+    output += '\tDigiKeyboard.sendKeyStroke(0);\n'
+    output += `\ttype(${arr_name}, sizeof(${arr_name}));\n`
+    output += '}\n\n'
+    output += 'void loop() {}\n'
+
+    return output
+    /*
     let output = ''
 
-    output += '/* [ ===== Converted using duck.spacehuhn.com ===== ] */\n\n'
+    output += '// [ ===== Converted using duck.spacehuhn.com ===== ] //\n\n'
     output += '#include "DigiKeyboard.h"\n\n'
     output += 'void setup() {\n'
     output += '\tDigiKeyboard.sendKeyStroke(0);\n'
@@ -208,7 +191,61 @@ const digisparkConverter = (script_input, layout) => {
         } else if (script_arr[line].slice(0, 5) === 'DELAY') {
             prev_line = '\tDigiKeyboard.delay(' + parseInt(script_arr[line].slice(6)) + ');'
         } else if (script_arr[line].slice(0, 6) === 'STRING') {
-            prev_line = '\tDigiKeyboard.print(\'' + translateString(script_arr[line].slice(7).replaceAll('\\', '\\\\').replaceAll('\'', '\\\''), layout) + '\');'
+            const str = script_arr[line].slice(7)
+
+            const mod_arr = (key) => {
+                const arr = []
+
+                if (key.shift) arr.push(digisparkTable['SHIFT'])
+                if (key.alt) arr.push(digisparkTable['ALT'])
+                if (key.altGr) arr.push(digisparkTable['ALTGR'])
+
+                if (arr.length === 0) arr.push(digisparkTable['NONE'])
+
+                return arr
+            }
+
+            const combo_arr = (key) => {
+                const arr = []
+
+                if(key.comboShift) arr.push(digisparkTable['SHIFT'])
+                else arr.push(digisparkTable['NONE'])
+
+                arr.push(digisparkTable[key.combo])
+
+                return arr
+            }
+
+            const key_arr = (str) => {
+                const arr = []
+
+                for (const char of str) {
+                    const key = layout.find(k => k.char === char)
+
+                    if(!key){
+                        console.log(`Couldn find key for: '${char}'`)
+                        arr.push(digisparkTable['NONE'])
+                        arr.push(digisparkTable[char])
+                        continue
+                    }
+
+                    if (key.combo !== '') {
+                        combo_arr(key).forEach(k => arr.push(k))
+                    }
+                    
+                    arr.push(mod_arr(key).join('|'))
+                    arr.push(digisparkTable[key.us])
+                }
+
+                return arr
+            }
+
+            const arr_name = `key_arr_${line}`
+            const arr_value = key_arr(str).join(', ')
+
+            prev_line = `\tconst uint8_t ${arr_name}[] PROGMEM = {${arr_value}};\n`
+            prev_line += `\ttype(${arr_name});\n`
+
         } else if (script_arr[line].slice(0, 6) === 'REPEAT') {
             let repetitions = parseInt(script_arr[line].slice(7)) - 1
             for (let i = 0; i < repetitions; i++) {
@@ -229,7 +266,8 @@ const digisparkConverter = (script_input, layout) => {
             for (let j = 0; j < keys.length; j++) {
                 if (j > 0) prev_line += ' '
 
-                prev_line += translate(keys[j], layout)
+                //prev_line += translate(keys[j], layout)
+                prev_line += 'TODO'
 
                 prev_line += ','
             }
@@ -250,6 +288,7 @@ const digisparkConverter = (script_input, layout) => {
     output += 'void loop() {}\n'
 
     return output
+    */
 }
 
 export default digisparkConverter

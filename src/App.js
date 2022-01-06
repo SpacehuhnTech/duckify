@@ -11,7 +11,7 @@ import digisparkConverter from './modules/digispark.js'
 import locale_de from './layouts/de.json'
 
 const cleanLayout = (keys) => {
-  const newKeyList = []
+  /*const newKeyList = []
 
   keys.forEach(key => {
     if (key.char !== key.us || key.alt || key.altGr || key.shift || key.combo !== '') {
@@ -19,7 +19,8 @@ const cleanLayout = (keys) => {
     }
   })
 
-  return newKeyList
+  return newKeyList*/
+  return keys
 }
 
 const App = () => {
