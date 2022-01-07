@@ -342,6 +342,10 @@ const digisparkConverter = (scriptInput, layout) => {
             
             commands.push(`DigiKeyboard.sendKeyStroke(${key.toString()}, ${mods.toString()}); // ${line}`)
         }
+        // KEYCODE
+        else if(line.startsWith('LOCALE') || line.startsWith('DUCKY_LANG ')) {
+            commands.push(`#warning LOCALE/DUCKY_LANG ignored ('${line}')`)
+        }
         // Key combinations
         else {
             const words = line.split(' ')
