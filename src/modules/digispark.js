@@ -484,7 +484,7 @@ void setup() {
 
         if (defaultDelay) {
             if (indent) output += `    `
-            output += `    DigiKeyboard.delay(${defaultDelay})\n`
+            output += `    DigiKeyboard.delay(${defaultDelay});\n`
         }
     })
 
