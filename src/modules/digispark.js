@@ -329,6 +329,19 @@ const digisparkConverter = (scriptInput, layout) => {
 
             defaultDelay = value*10
         }
+        // KEYCODE
+        else if(line.startsWith('KEYCODE')) {
+            const value = line.substring(8)
+            const words = value.split(' ')
+
+            const modStr = words.length > 1 ? words[0] : '0x00'
+            const keyStr = words.length > 1 ? words[1] : words[0]
+
+            const mods = parseInt(modStr, modStr.startsWith('0x') ? 16 : 10)
+            const key = parseInt(keyStr, keyStr.startsWith('0x') ? 16 : 10)
+            
+            commands.push(`DigiKeyboard.sendKeyStroke(${key.toString()}, ${mods.toString()}); // ${line}`)
+        }
         // Key combinations
         else {
             const words = line.split(' ')
