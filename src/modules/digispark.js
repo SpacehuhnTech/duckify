@@ -67,6 +67,7 @@ const charMap = {
     '.': 0x37,
     '/': 0x38,
     '\n': 0x28, // ENTER
+    'Intl\\': 0x28, // Keyboard Non-US \ and |
 }
 
 const keyMap = {
@@ -263,6 +264,10 @@ const encodeString = (str, layout) => {
         const key = layout.find(key => key.char === char)
         const value = getKeyValue(key ? key.us : char)
         const modValue = key ? getModValue(key) : 0x00
+
+        if(value === 0) {
+            console.log(`Couldn't find value for ${char}`,key)
+        }
 
         if (key && key.combo !== '') {
             const comboModValue = key.comboShift ? modMap['LSHIFT'] : 0x00
