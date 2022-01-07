@@ -361,7 +361,7 @@ const digisparkConverter = (scriptInput, layout) => {
         }
         // DEFAULTDELAY
         else if (line.startsWith('DEFAULTDELAY') || line.startsWith('DEFAULT_DELAY')) {
-            const value = parseInt(line.substring(12))
+            const value = parseInt(line.substring(13))
 
             defaultDelay = value * 10
         }
