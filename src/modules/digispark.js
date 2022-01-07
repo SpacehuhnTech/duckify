@@ -482,7 +482,7 @@ void setup() {
 
         if (command.startsWith('for')) indent = true
 
-        if (defaultDelay) {
+        if (defaultDelay && !command.startsWith('for') && command !== '}') {
             if (indent) output += `    `
             output += `    DigiKeyboard.delay(${defaultDelay});\n`
         }
