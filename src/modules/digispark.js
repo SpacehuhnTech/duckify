@@ -390,12 +390,12 @@ const digisparkConverter = (scriptInput, layout) => {
             const value = line.substring(5)
             const words = value.split(' ')
 
-            if (words[0] === 'START' && words.length === 2) {
+            if (words[0] === 'START' && words.length === 2 && !inLoop) {
                 inLoop = true
                 const loops = parseInt(words[1])
 
                 commands.push(`for(size_t i=0; i<${loops}; ++i) {`)
-            } else if (words[0] === 'END') {
+            } else if (words[0] === 'END' && inLoop) {
                 inLoop = false
                 commands.push(`}`)
             } else {
