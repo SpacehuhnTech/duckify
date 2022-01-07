@@ -284,6 +284,17 @@ const encodeString = (str, layout) => {
     return output
 }
 
+const commentEscape = (str) => {
+    str = str.replace(/(?:\r\n|\r|\n)/g, ' ')
+    str = str.replaceAll('\\','bslash')
+
+    if(str.length > 42) {
+        return str.substring(0,39) + '...'
+    }
+    
+    return str
+}
+
 const digisparkConverter = (scriptInput, layout) => {
     let output = ''
 
@@ -316,9 +327,7 @@ const digisparkConverter = (scriptInput, layout) => {
             if (!largeString && largeStringValue.length > 0) {
                 const i = keyArrays.length
                 const value = largeStringValue
-                const comment = value.substring(0, 42).replace(/(?:\r\n|\r|\n)/g, ' ');
-
-                console.log(comment)
+                const comment = commentEscape(value)
 
                 commands.push(`duckyString(key_arr_${i}, sizeof(key_arr_${i})); // ${comment}`)
                 keyArrays.push({
@@ -336,7 +345,7 @@ const digisparkConverter = (scriptInput, layout) => {
         else if (line.startsWith('STRING')) {
             const i = keyArrays.length
             const value = line.substring(7)
-            const comment = value.substring(0, 42)
+            const comment = commentEscape(value)
 
             commands.push(`duckString(key_arr_${i}, sizeof(key_arr_${i})); // ${comment}`)
             keyArrays.push({
