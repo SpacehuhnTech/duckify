@@ -299,6 +299,9 @@ const digisparkConverter = (scriptInput, layout) => {
 
     // Parse each line
     lines.forEach(line => {
+        // Ignore empty lines
+        if(line.length === '') return true
+
         // LARGESTRING
         if (line.startsWith('LARGESTRING')) {
             const value = line.substring(12)
