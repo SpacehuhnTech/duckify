@@ -317,20 +317,20 @@ const digisparkConverter = (scriptInput, layout) => {
         // REPEAT
         else if (line.startsWith('REPEAT') || line.startsWith('REPLAY')) {
             const value = parseInt(line.substring(7))
-            const prevCommand = commands.at(-1)
+            let prevCommand = commands.at(-1)
 
             commands.push(`for(size_t i=0; i<${value}; ++i) {`)
-            commands.push(`    ${prevCommand}`)
+            commands.push(prevCommand)
             commands.push(`}`)
         }
         // DEFAULTDELAY
-        else if(line.startsWith('DEFAULTDELAY') || line.startsWith('DEFAULT_DELAY')) {
+        else if (line.startsWith('DEFAULTDELAY') || line.startsWith('DEFAULT_DELAY')) {
             const value = parseInt(line.substring(12))
 
-            defaultDelay = value*10
+            defaultDelay = value * 10
         }
         // KEYCODE
-        else if(line.startsWith('KEYCODE')) {
+        else if (line.startsWith('KEYCODE')) {
             const value = line.substring(8)
             const words = value.split(' ')
 
@@ -339,12 +339,27 @@ const digisparkConverter = (scriptInput, layout) => {
 
             const mods = parseInt(modStr, modStr.startsWith('0x') ? 16 : 10)
             const key = parseInt(keyStr, keyStr.startsWith('0x') ? 16 : 10)
-            
+
             commands.push(`DigiKeyboard.sendKeyStroke(${key.toString()}, ${mods.toString()}); // ${line}`)
         }
         // KEYCODE
-        else if(line.startsWith('LOCALE') || line.startsWith('DUCKY_LANG ')) {
+        else if (line.startsWith('LOCALE') || line.startsWith('DUCKY_LANG ')) {
             commands.push(`#warning LOCALE/DUCKY_LANG ignored ('${line}')`)
+        }
+        // LOOP
+        else if (line.startsWith('LOOP')) {
+            const value = line.substring(5)
+            const words = value.split(' ')
+
+            if (words[0] === 'START' && words.length === 2) {
+                const loops = parseInt(words[1])
+
+                commands.push(`for(size_t i=0; i<${loops}; ++i) {`)
+            } else if (words[0] === 'END') {
+                commands.push(`}`)
+            } else {
+                commands.push(`#error Couldn't parse '${line}'`)
+            }
         }
         // Key combinations
         else {
@@ -402,10 +417,18 @@ void setup() {
     DigiKeyboard.sendKeyStroke(0);
 \n`
 
+    let inLoop = false
+
     // Each line
     commands.forEach((command) => {
+        if(command === '}') inLoop = false
+
+        if(inLoop) output += `    `
         output += `    ${command}\n`
-        if(defaultDelay) {
+
+        if(command.startsWith('for')) inLoop = true
+
+        if (defaultDelay) {
             output += `    DigiKeyboard.delay(${defaultDelay})\n\n`
         }
     })
