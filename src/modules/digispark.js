@@ -320,7 +320,7 @@ const digisparkConverter = (scriptInput, layout) => {
 
                 console.log(comment)
 
-                commands.push(`type(key_arr_${i}, sizeof(key_arr_${i})); // ${comment}`)
+                commands.push(`duckyString(key_arr_${i}, sizeof(key_arr_${i})); // ${comment}`)
                 keyArrays.push({
                     comment: comment,
                     value: encodeString(value, layout, i),
@@ -465,7 +465,7 @@ const uint8_t key_arr_${i}[] PROGMEM = ${keyArr.value};\n`
 
     //Digispark helper function
     output += `
-void type(const uint8_t* keys, size_t len){  
+void duckyString(const uint8_t* keys, size_t len) {  
     for(size_t i=0; i<len; i+=2) {
         DigiKeyboard.sendKeyStroke(pgm_read_byte_near(keys + i+1),pgm_read_byte_near(keys + i));
     }
