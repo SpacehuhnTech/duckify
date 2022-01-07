@@ -338,7 +338,7 @@ const digisparkConverter = (scriptInput, layout) => {
             const value = line.substring(7)
             const comment = value.substring(0, 42)
 
-            commands.push(`type(key_arr_${i}, sizeof(key_arr_${i})); // ${comment}`)
+            commands.push(`duckString(key_arr_${i}, sizeof(key_arr_${i})); // ${comment}`)
             keyArrays.push({
                 comment: comment,
                 value: encodeString(value, layout, i),
