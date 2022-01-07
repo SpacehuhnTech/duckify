@@ -373,9 +373,10 @@ const digisparkConverter = (scriptInput, layout) => {
         }
         // DEFAULTDELAY
         else if (line.startsWith('DEFAULTDELAY') || line.startsWith('DEFAULT_DELAY')) {
-            const value = parseInt(line.substring(13))
-
-            defaultDelay = value * 10
+            const value = line.replace('DEFAULTDELAY ','').replace('DEFAULT_DELAY ','')
+            
+            defaultDelay = parseInt(value)// * 10
+            console.log("New default delay", defaultDelay)
         }
         // KEYCODE
         else if (line.startsWith('KEYCODE')) {
@@ -499,7 +500,7 @@ void setup() {
 
         if (command.startsWith('for') || command.startsWith('while')) indent = true
 
-        if (defaultDelay && !command.startsWith('for') && command.startsWith('while') && command !== '}') {
+        if (defaultDelay && !command.startsWith('for') && !command.startsWith('while') && command !== '}') {
             if (indent) output += `    `
             output += `    DigiKeyboard.delay(${defaultDelay});\n`
         }
