@@ -455,18 +455,21 @@ const digisparkConverter = (scriptInput, layout) => {
     output += `// [ ===== Converted using duckify.huhn.me ===== ] //
 
 #include "DigiKeyboard.h"
-
-void type(const uint8_t* keys, size_t len){  
-    for(size_t i=0; i<len; i+=2) {
-        DigiKeyboard.sendKeyStroke(pgm_read_byte_near(keys + i+1),pgm_read_byte_near(keys + i));
-    }
-}\n\n`
+\n`
 
     // PROGMEM arrays for strings
     keyArrays.forEach((keyArr, i) => {
         output += `// ${keyArr.comment}
 const uint8_t key_arr_${i}[] PROGMEM = ${keyArr.value};\n`
     })
+
+    //Digispark helper function
+    output += `
+void type(const uint8_t* keys, size_t len){  
+    for(size_t i=0; i<len; i+=2) {
+        DigiKeyboard.sendKeyStroke(pgm_read_byte_near(keys + i+1),pgm_read_byte_near(keys + i));
+    }
+}\n`
 
     // Digispark sketch setup
     output += `
