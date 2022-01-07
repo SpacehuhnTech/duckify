@@ -287,6 +287,7 @@ const digisparkConverter = (scriptInput, layout) => {
 
     const keyArrays = []
     const commands = []
+    let defaultDelay = 0
 
     const lines = scriptInput.split(/\r?\n/)
 
@@ -322,7 +323,13 @@ const digisparkConverter = (scriptInput, layout) => {
             commands.push(`    ${prevCommand}`)
             commands.push(`}`)
         }
-        // other shit
+        // DEFAULTDELAY
+        else if(line.startsWith('DEFAULTDELAY') || line.startsWith('DEFAULT_DELAY')) {
+            const value = parseInt(line.substring(12))
+
+            defaultDelay = value*10
+        }
+        // Key combinations
         else {
             const words = line.split(' ')
             let mods = 0x00
@@ -381,6 +388,9 @@ void setup() {
     // Each line
     commands.forEach((command) => {
         output += `    ${command}\n`
+        if(defaultDelay) {
+            output += `    DigiKeyboard.delay(${defaultDelay})\n\n`
+        }
     })
 
     // Digispark sketch suffix
