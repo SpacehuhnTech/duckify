@@ -420,7 +420,7 @@ const digisparkConverter = (scriptInput, layout) => {
                 if (key === 0x00) {
                     key = value
                 } else {
-                    commands.push(`#warning Too many keys in line '${line}'`)
+                    commands.push(`#error Too many keys in line '${line}' - Digispark only allows 1 key + modifiers`)
                 }
             }
 
