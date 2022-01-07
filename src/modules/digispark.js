@@ -265,8 +265,8 @@ const encodeString = (str, layout) => {
         const value = getKeyValue(key ? key.us : char)
         const modValue = key ? getModValue(key) : 0x00
 
-        if(value === 0) {
-            console.log(`Couldn't find value for ${char}`,key)
+        if (value === 0) {
+            console.log(`Couldn't find value for ${char}`, key)
         }
 
         if (key && key.combo !== '') {
@@ -289,7 +289,7 @@ const digisparkConverter = (scriptInput, layout) => {
 
     const keyArrays = []
     const commands = []
-    
+
     let defaultDelay = 0
     let inLoop = false
     let largeString = false
@@ -300,14 +300,14 @@ const digisparkConverter = (scriptInput, layout) => {
     // Parse each line
     lines.forEach(line => {
         // Ignore empty lines
-        if(line === '' && !largeString) return true
+        if (line === '' && !largeString) return true
 
         // LARGESTRING
         if (line.startsWith('LARGESTRING')) {
             const value = line.substring(12)
             const mode = value.split(' ')
 
-            if(mode.length === 0) {
+            if (mode.length === 0) {
                 commands.push(`#error Couldn't parse '${line}'`)
             }
 
@@ -329,7 +329,7 @@ const digisparkConverter = (scriptInput, layout) => {
                 largeStringValue = ''
             }
         } else if (largeString) {
-            if(largeStringValue.length > 0) largeStringValue += '\n'
+            if (largeStringValue.length > 0) largeStringValue += '\n'
             largeStringValue += line
         }
         // STRING
@@ -390,11 +390,16 @@ const digisparkConverter = (scriptInput, layout) => {
             const value = line.substring(5)
             const words = value.split(' ')
 
-            if (words[0] === 'START' && words.length === 2 && !inLoop) {
+            if (words[0] === 'START' && !inLoop) {
                 inLoop = true
-                const loops = parseInt(words[1])
 
-                commands.push(`for(size_t i=0; i<${loops}; ++i) {`)
+                if (words.length === 2) {
+                    const loops = parseInt(words[1])
+
+                    commands.push(`for(size_t i=0; i<${loops}; ++i) {`)
+                } else {
+                    commands.push(`while(true) {`)
+                }
             } else if (words[0] === 'END' && inLoop) {
                 inLoop = false
                 commands.push(`}`)
@@ -406,10 +411,10 @@ const digisparkConverter = (scriptInput, layout) => {
         else if (line.startsWith('LED')) {
             const value = line.substring(4)
             const words = value.split(' ')
-            
-            if(words[0] !== '0' && words[0] !== 'OFF') {
+
+            if (words[0] !== '0' && words[0] !== 'OFF') {
                 commands.push(`digitalWrite(1, HIGH);`)
-            } else if(words[0] === 'OFF') {
+            } else if (words[0] === 'OFF') {
                 commands.push(`digitalWrite(1, LOW);`)
             }
         }
@@ -480,15 +485,15 @@ void setup() {
         if (indent) output += `    `
         output += `    ${command}\n`
 
-        if (command.startsWith('for')) indent = true
+        if (command.startsWith('for') || command.startsWith('while')) indent = true
 
-        if (defaultDelay && !command.startsWith('for') && command !== '}') {
+        if (defaultDelay && !command.startsWith('for') && command.startsWith('while') && command !== '}') {
             if (indent) output += `    `
             output += `    DigiKeyboard.delay(${defaultDelay});\n`
         }
     })
 
-    if(inLoop) {
+    if (inLoop) {
         output += `    }\n`
         output += `    #warning Missing LOOP END\n`
     }
