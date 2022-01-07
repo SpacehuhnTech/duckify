@@ -329,8 +329,8 @@ const digisparkConverter = (scriptInput, layout) => {
                 largeStringValue = ''
             }
         } else if (largeString) {
+            if(largeStringValue.length > 0) largeStringValue += '\n'
             largeStringValue += line
-            largeStringValue += '\n'
         }
         // STRING
         else if (line.startsWith('STRING')) {
