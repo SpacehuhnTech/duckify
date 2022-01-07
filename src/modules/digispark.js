@@ -56,6 +56,7 @@ const charMap = {
     ',': 0x36,
     '.': 0x37,
     '/': 0x38,
+    '\n': 0x28, // ENTER
 }
 
 const keyMap = {
@@ -244,12 +245,8 @@ const keyMap = {
 const encodeString = (str, layout) => {
     let output = '{'
 
-    const getKeyValue = (key, char) => {
-        if (key) {
-            return charMap[key] | 0x00
-        } else {
-            return charMap[char] | 0x00
-        }
+    const getKeyValue = (key) => {
+        return charMap[key] | 0x00
     }
 
     const getModValue = (key) => {
@@ -264,7 +261,7 @@ const encodeString = (str, layout) => {
 
     for (const char of str) {
         const key = layout.find(key => key.char === char)
-        const value = getKeyValue(key.us, char)
+        const value = getKeyValue(key ? key.us : char)
         const modValue = key ? getModValue(key) : 0x00
 
         if (key && key.combo !== '') {
@@ -287,14 +284,45 @@ const digisparkConverter = (scriptInput, layout) => {
 
     const keyArrays = []
     const commands = []
+    
     let defaultDelay = 0
+    let largeString = false
+    let largeStringValue = ''
 
     const lines = scriptInput.split(/\r?\n/)
 
     // Parse each line
     lines.forEach(line => {
+        // LARGESTRING
+        if (line.startsWith('LARGESTRING')) {
+            const value = line.substring(12)
+            const mode = value.split(' ')
+
+            if(mode.length === 0) {
+                commands.push(`#error Couldn't parse '${line}'`)
+            }
+
+            largeString = (mode[0] === 'START')
+
+            if (!largeString && largeStringValue.length > 0) {
+                const i = keyArrays.length
+                const value = largeStringValue
+                const comment = value.substring(0, 42).replace(/(?:\r\n|\r|\n)/g, ' ');
+
+                console.log(comment)
+
+                commands.push(`type(key_arr_${i}, sizeof(key_arr_${i})); // ${comment}`)
+                keyArrays.push({
+                    comment: comment,
+                    value: encodeString(value, layout, i),
+                })
+            }
+        } else if (largeString) {
+            largeStringValue += line
+            largeStringValue += '\n'
+        }
         // STRING
-        if (line.startsWith('STRING')) {
+        else if (line.startsWith('STRING')) {
             const i = keyArrays.length
             const value = line.substring(7)
             const comment = value.substring(0, 42)
@@ -421,12 +449,12 @@ void setup() {
 
     // Each line
     commands.forEach((command) => {
-        if(command === '}') inLoop = false
+        if (command === '}') inLoop = false
 
-        if(inLoop) output += `    `
+        if (inLoop) output += `    `
         output += `    ${command}\n`
 
-        if(command.startsWith('for')) inLoop = true
+        if (command.startsWith('for')) inLoop = true
 
         if (defaultDelay) {
             output += `    DigiKeyboard.delay(${defaultDelay})\n\n`
