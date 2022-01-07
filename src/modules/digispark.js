@@ -43,6 +43,16 @@ const charMap = {
     'x': 0x1b,
     'y': 0x1c,
     'z': 0x1d,
+    '1': 0x1e,
+    '2': 0x1f,
+    '3': 0x20,
+    '4': 0x21,
+    '5': 0x22,
+    '6': 0x23,
+    '7': 0x24,
+    '8': 0x25,
+    '9': 0x26,
+    '0': 0x27,
     ' ': 0x2c,
     '-': 0x2d,
     '=': 0x2e,
@@ -88,16 +98,6 @@ const keyMap = {
     'X': 0x1b,          // Keyboard x and X
     'Y': 0x1c,          // Keyboard y and Y
     'Z': 0x1d,          // Keyboard z and Z
-    '1': 0x1e,          // Keyboard 1 and !
-    '2': 0x1f,          // Keyboard 2 and @
-    '3': 0x20,          // Keyboard 3 and #
-    '4': 0x21,          // Keyboard 4 and $
-    '5': 0x22,          // Keyboard 5 and %
-    '6': 0x23,          // Keyboard 6 and ^
-    '7': 0x24,          // Keyboard 7 and &
-    '8': 0x25,          // Keyboard 8 and *
-    '9': 0x26,          // Keyboard 9 and (
-    '0': 0x27,          // Keyboard 0 and )
     'ENTER': 0x28,      // Keyboard Return (ENTER)
     'ESC': 0x29,        // Keyboard ESCAPE
     'BACKSPACE': 0x2a,  // Keyboard DELETE (Backspace)
