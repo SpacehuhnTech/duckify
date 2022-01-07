@@ -300,7 +300,7 @@ const digisparkConverter = (scriptInput, layout) => {
     // Parse each line
     lines.forEach(line => {
         // Ignore empty lines
-        if(line === '') return true
+        if(line === '' && !largeString) return true
 
         // LARGESTRING
         if (line.startsWith('LARGESTRING')) {
