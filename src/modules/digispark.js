@@ -286,6 +286,7 @@ const digisparkConverter = (scriptInput, layout) => {
     const commands = []
     
     let defaultDelay = 0
+    let inLoop = false
     let largeString = false
     let largeStringValue = ''
 
@@ -382,10 +383,12 @@ const digisparkConverter = (scriptInput, layout) => {
             const words = value.split(' ')
 
             if (words[0] === 'START' && words.length === 2) {
+                inLoop = true
                 const loops = parseInt(words[1])
 
                 commands.push(`for(size_t i=0; i<${loops}; ++i) {`)
             } else if (words[0] === 'END') {
+                inLoop = false
                 commands.push(`}`)
             } else {
                 commands.push(`#error Couldn't parse '${line}'`)
@@ -460,21 +463,26 @@ void setup() {
     DigiKeyboard.sendKeyStroke(0);
 \n`
 
-    let inLoop = false
+    let indent = false
 
     // Each line
     commands.forEach((command) => {
-        if (command === '}') inLoop = false
+        if (command === '}') indent = false
 
-        if (inLoop) output += `    `
+        if (indent) output += `    `
         output += `    ${command}\n`
 
-        if (command.startsWith('for')) inLoop = true
+        if (command.startsWith('for')) indent = true
 
         if (defaultDelay) {
             output += `    DigiKeyboard.delay(${defaultDelay})\n\n`
         }
     })
+
+    if(inLoop) {
+        output += `    }\n`
+        output += `    #warning Missing LOOP END\n`
+    }
 
     // Digispark sketch suffix
     output += `}\n\nvoid loop() {}\n`
