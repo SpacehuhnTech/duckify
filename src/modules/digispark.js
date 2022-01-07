@@ -113,34 +113,22 @@ const getKeyValue = (key, char) => {
 const getModValue = (key) => {
     let value = 0x00
 
-    if(key.shift) value |= modMap['LSHIFT']
-    if(key.alt) value |= modMap['LALT']
-    if(key.altGr) value |= modMap['RALT']
+    if (key.shift) value |= modMap['LSHIFT']
+    if (key.alt) value |= modMap['LALT']
+    if (key.altGr) value |= modMap['RALT']
 
     return value
 }
 
 const byteToStr = (value) => {
-    return `0x${(value < 0x10 ? '0' : '')}${value.toString(16)}`
+    //return `0x${(value < 0x10 ? '0' : '')}${value.toString(16)}`
+    return `${value.toString()}`
 }
 
-const digisparkConverter = (scriptInput, layout) => {
-    let output = `// [ ===== Converted using duckify.huhn.me ===== ] //
+const convertString = (str, layout) => {
+    let output = '{'
 
-#include "DigiKeyboard.h"
-
-void type(const uint8_t* keys, size_t len){  
-    for(size_t i=0; i<len; i+=2) {
-        DigiKeyboard.sendKeyStroke(pgm_read_byte_near(keys + i+1),pgm_read_byte_near(keys + i));
-    }
-}
-
-`
-    const arr_name = `key_arr_${0}`
-
-    output += `const uint8_t ${arr_name}[] PROGMEM = {`
-
-    for (const char of scriptInput) {
+    for (const char of str) {
         const key = layout.find(key => key.char === char)
         const value = getKeyValue(key, char)
         let modValue = key ? getModValue(key) : 0x00
@@ -148,147 +136,69 @@ void type(const uint8_t* keys, size_t len){
         output += `${byteToStr(modValue)},${byteToStr(value)}, `
     }
 
-    output = `${output.slice(0, -2)}};\n`
+    output = `${output.slice(0, -2)}}`
 
-    output += '\n'
-    output += 'void setup() {\n'
-    output += '\tDigiKeyboard.sendKeyStroke(0);\n'
-    output += `\ttype(${arr_name}, sizeof(${arr_name}));\n`
-    output += '}\n\n'
-    output += 'void loop() {}\n'
+    return {
+        type: 'string',
+        comment: str.length > 42 ? `${str.substring(0, 42)}...` : str,
+        value: output,
+    }
+}
 
-    return output
-    /*
+const digisparkConverter = (scriptInput, layout) => {
+    const lines = scriptInput.split(/\r?\n/)
+    const arrays = []
     let output = ''
 
-    output += '// [ ===== Converted using duck.spacehuhn.com ===== ] //\n\n'
-    output += '#include "DigiKeyboard.h"\n\n'
-    output += 'void setup() {\n'
-    output += '\tDigiKeyboard.sendKeyStroke(0);\n'
-
-    // Convert the Ducky Script lines to a list and strip whitespaces:
-    const script_arr = script_input.split(/\r\n|\r|\n/g)
-    // Ducky Statements fall into one of the following 6 categories:
-    // Default Delay, Comment, Delay, String, Repeat, Command
-
-    // Check if there is a default delay:
-    let default_delay = 0
-    if (script_arr[0].slice(0, 7) === 'DEFAULT') {
-        default_delay = parseInt(script_arr[0].slice(7))
-        script_arr.shift()
-    }
-
-    // Variables:
-    let prev_line = ''
-    let keys = []
-
-    // Process each line from the ducky script:
-    for (let line = 0; line < script_arr.length; line++) {
-
-        // Check if the statement is a comment, delay, string, repeat or key combination
-        if (script_arr[line].slice(0, 3) === 'REM') {
-            prev_line = script_arr[line].replace('REM', '\t//')
-        } else if (script_arr[line].slice(0, 5) === 'DELAY') {
-            prev_line = '\tDigiKeyboard.delay(' + parseInt(script_arr[line].slice(6)) + ');'
-        } else if (script_arr[line].slice(0, 6) === 'STRING') {
-            const str = script_arr[line].slice(7)
-
-            const mod_arr = (key) => {
-                const arr = []
-
-                if (key.shift) arr.push(digisparkTable['SHIFT'])
-                if (key.alt) arr.push(digisparkTable['ALT'])
-                if (key.altGr) arr.push(digisparkTable['ALTGR'])
-
-                if (arr.length === 0) arr.push(digisparkTable['NONE'])
-
-                return arr
-            }
-
-            const combo_arr = (key) => {
-                const arr = []
-
-                if(key.comboShift) arr.push(digisparkTable['SHIFT'])
-                else arr.push(digisparkTable['NONE'])
-
-                arr.push(digisparkTable[key.combo])
-
-                return arr
-            }
-
-            const key_arr = (str) => {
-                const arr = []
-
-                for (const char of str) {
-                    const key = layout.find(k => k.char === char)
-
-                    if(!key){
-                        console.log(`Couldn find key for: '${char}'`)
-                        arr.push(digisparkTable['NONE'])
-                        arr.push(digisparkTable[char])
-                        continue
-                    }
-
-                    if (key.combo !== '') {
-                        combo_arr(key).forEach(k => arr.push(k))
-                    }
-                    
-                    arr.push(mod_arr(key).join('|'))
-                    arr.push(digisparkTable[key.us])
-                }
-
-                return arr
-            }
-
-            const arr_name = `key_arr_${line}`
-            const arr_value = key_arr(str).join(', ')
-
-            prev_line = `\tconst uint8_t ${arr_name}[] PROGMEM = {${arr_value}};\n`
-            prev_line += `\ttype(${arr_name});\n`
-
-        } else if (script_arr[line].slice(0, 6) === 'REPEAT') {
-            let repetitions = parseInt(script_arr[line].slice(7)) - 1
-            for (let i = 0; i < repetitions; i++) {
-                output += prev_line
-                output += '\n'
-
-                // Write Default Delay between the commands if it exists:
-                if (default_delay !== 0) {
-                    output += '\tDigiKeyboard.delay(' + default_delay + ');\n'
-                }
-            }
+    // Prase each line
+    lines.forEach(line => {
+        if (line.startsWith('STRING')) {
+            arrays.push(convertString(line.substring(7), layout))
+        } else if (line.startsWith('REM')) {
+            arrays.push({ type: 'comment', comment: line.substring(4), value: '' })
         } else {
-            // Write beginning of command:
-            prev_line = '\tDigiKeyboard.sendKeyStroke('
-            // Split statement into keys
-            keys = script_arr[line].split(' ')
-            // Go through the keys matching them through the dictionary to Digispark keys
-            for (let j = 0; j < keys.length; j++) {
-                if (j > 0) prev_line += ' '
-
-                //prev_line += translate(keys[j], layout)
-                prev_line += 'TODO'
-
-                prev_line += ','
-            }
-            // Remove last comma and add a parenthesis
-            prev_line = prev_line.slice(0, prev_line.length - 1) + ');'
+            console.warn(`Line '${line.substring(0, 24)}' couldn't be parsed`)
         }
+    })
 
-        // Write command to output file and add a new line \n :
-        output += prev_line
-        output += '\n'
+    // Digispark sketch prefix
+    output += `// [ ===== Converted using duckify.huhn.me ===== ] //
 
-        // Write Default Delay if it exists:
-        if (default_delay !== 0) {
-            output += '\tDigiKeyboard.delay(' + default_delay + ');\n'
-        }
+#include "DigiKeyboard.h"
+
+void type(const uint8_t* keys, size_t len){  
+    for(size_t i=0; i<len; i+=2) {
+        DigiKeyboard.sendKeyStroke(pgm_read_byte_near(keys + i+1),pgm_read_byte_near(keys + i));
     }
-    output += '}\n\n'
-    output += 'void loop() {}\n'
+}\n\n`
+
+    // PROGMEM arrays for strings
+    arrays.forEach((array, i) => {
+        if (array.type === 'string') {
+            output += `// ${array.comment}\n`
+            output += `const uint8_t key_arr_${i}[] PROGMEM = ${array.value};\n`
+        }
+    })
+
+    // Digispark sketch setup
+    output += `
+void setup() {
+    DigiKeyboard.sendKeyStroke(0);
+\n`
+
+    // Each line
+    arrays.forEach((array, i) => {
+        if (array.type === 'string') {
+            output += `    type(key_arr_${i}, sizeof(key_arr_${i})); // ${array.comment}\n`
+        } else if(array.type === 'comment') {
+            output += `    // ${array.comment}\n`
+        }
+    })
+
+    // Digispark sketch suffix
+    output += `}\n\nvoid loop() {}\n`
 
     return output
-    */
 }
 
 export default digisparkConverter
