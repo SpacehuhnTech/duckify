@@ -316,6 +316,8 @@ const digisparkConverter = (scriptInput, layout) => {
                     comment: comment,
                     value: encodeString(value, layout, i),
                 })
+
+                largeStringValue = ''
             }
         } else if (largeString) {
             largeStringValue += line
@@ -389,6 +391,17 @@ const digisparkConverter = (scriptInput, layout) => {
                 commands.push(`#error Couldn't parse '${line}'`)
             }
         }
+        // LED
+        else if (line.startsWith('LED')) {
+            const value = line.substring(4)
+            const words = value.split(' ')
+            
+            if(words[0] !== '0' && words[0] !== 'OFF') {
+                commands.push(`digitalWrite(1, HIGH);`)
+            } else if(words[0] === 'OFF') {
+                commands.push(`digitalWrite(1, LOW);`)
+            }
+        }
         // Key combinations
         else {
             const words = line.split(' ')
@@ -442,6 +455,8 @@ const uint8_t key_arr_${i}[] PROGMEM = ${keyArr.value};\n`
     // Digispark sketch setup
     output += `
 void setup() {
+    pinMode(1, OUTPUT);
+    digitalWrite(1, LOW);
     DigiKeyboard.sendKeyStroke(0);
 \n`
 
