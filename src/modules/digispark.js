@@ -67,7 +67,7 @@ const charMap = {
     '.': 0x37,
     '/': 0x38,
     '\n': 0x28, // ENTER
-    'Intl\\': 0x28, // Keyboard Non-US \ and |
+    'Intl\\': 0x64, // Keyboard Non-US \ and |
 }
 
 const keyMap = {
