@@ -12,8 +12,9 @@ import Select from '@mui/material/Select'
 import version from './version.js'
 import digisparkConverter from './modules/digispark.js'
 
-import locale_de from './layouts/de.json'
 import locale_us from './layouts/us.json'
+import locale_de from './layouts/de.json'
+import locale_ro from './layouts/ro.json'
 
 const App = () => {
   const [input, setInput] = React.useState('')
@@ -24,6 +25,7 @@ const App = () => {
     let layout = []
     if(layoutStr === 'us')  layout = locale_us.keys
     if(layoutStr === 'de') layout = locale_de.keys
+    if(layoutStr === 'ro') layout = locale_ro.keys
 
     setOutput(digisparkConverter(input, layout, version))
   }
@@ -54,6 +56,7 @@ const App = () => {
         >
           <MenuItem value={'us'}>US</MenuItem>
           <MenuItem value={'de'}>DE</MenuItem>
+          <MenuItem value={'ro'}>RO</MenuItem>
         </Select>
       </FormControl>
 

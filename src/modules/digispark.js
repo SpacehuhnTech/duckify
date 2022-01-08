@@ -67,7 +67,10 @@ const charMap = {
     '.': 0x37,
     '/': 0x38,
     '\n': 0x28, // ENTER
+    'Space': 0x2c, // SPACE
     'Intl\\': 0x64, // Keyboard Non-US \ and |
+    'IntlRo': 0x87, // Keyboard International1
+    'IntlYen': 0x89, // Keyboard International3
 }
 
 const keyMap = {
@@ -260,6 +263,16 @@ const encodeString = (str, layout) => {
         return value
     }
 
+    const getComboModValue = (key) => {
+        let value = 0x00
+
+        if (key.comboAlt) value |= modMap['LALT']
+        if (key.comboAltGr) value |= modMap['RALT']
+        if (key.comboShift) value |= modMap['LSHIFT']
+
+        return value
+    }
+
     for (const char of str) {
         const key = layout.find(key => key.char === char)
         const value = getKeyValue(key ? key.us : char)
@@ -270,7 +283,7 @@ const encodeString = (str, layout) => {
         }
 
         if (key && key.combo !== '') {
-            const comboModValue = key.comboShift ? modMap['LSHIFT'] : 0x00
+            const comboModValue = getComboModValue(key)
             const comboValue = getKeyValue(key.combo)
 
             output += `${comboModValue.toString()},${comboValue.toString()}, `
