@@ -285,13 +285,20 @@ const encodeString = (str, layout) => {
 }
 
 const commentEscape = (str) => {
-    str = str.replace(/(?:\r\n|\r|\n)/g, ' ')
-    str = str.replaceAll('\\','bslash')
+    str = str.replaceAll('\\', 'bslash')
+    str = str.replace(/(?:\r\n|\r|\n)/g, '\n// ')
 
-    if(str.length > 42) {
-        return str.substring(0,39) + '...'
+    return str
+}
+
+const commentCut = (str) => {
+    str = str.replaceAll('\\', 'bslash')
+    str = str.replace(/(?:\r\n|\r|\n)/g, ' ')
+
+    if (str.length > 42) {
+        return str.substring(0, 39) + '...'
     }
-    
+
     return str
 }
 
@@ -299,7 +306,7 @@ const digisparkConverter = (scriptInput, layout) => {
     let output = ''
 
     const keyArrays = []
-    const commands = []
+    const codeLines = []
 
     let defaultDelay = 0
     let inLoop = false
@@ -307,6 +314,25 @@ const digisparkConverter = (scriptInput, layout) => {
     let largeStringValue = ''
 
     const lines = scriptInput.split(/\r?\n/)
+
+    const addCodeLine = (value) => {
+        const obj = {
+            type: 'command',
+            value: value,
+        }
+
+        if (value.startsWith('#error') || value.startsWith('#warning')) {
+            obj.type = 'error'
+        } else if (value.startsWith('//')) {
+            obj.type = 'comment'
+        } else if (value.endsWith('{')) {
+            obj.type = 'indent-start'
+        } else if (value.endsWith('}')) {
+            obj.type = 'indent-end'
+        }
+
+        codeLines.push(obj)
+    }
 
     // Parse each line
     lines.forEach(line => {
@@ -319,7 +345,7 @@ const digisparkConverter = (scriptInput, layout) => {
             const mode = value.split(' ')
 
             if (mode.length === 0) {
-                commands.push(`#error Couldn't parse '${line}'`)
+                addCodeLine(`#error Couldn't parse '${line}'`)
             }
 
             largeString = (mode[0] === 'START')
@@ -328,8 +354,12 @@ const digisparkConverter = (scriptInput, layout) => {
                 const i = keyArrays.length
                 const value = largeStringValue
                 const comment = commentEscape(value)
+                const shortComment = commentCut(value)
 
-                commands.push(`duckyString(key_arr_${i}, sizeof(key_arr_${i})); // ${comment}`)
+                addCodeLine(`// LARGESTRING START`)
+                addCodeLine(`duckyString(key_arr_${i}, sizeof(key_arr_${i})); // ${shortComment}`)
+                addCodeLine(`// LARGESTRING END`)
+
                 keyArrays.push({
                     comment: comment,
                     value: encodeString(value, layout, i),
@@ -346,8 +376,10 @@ const digisparkConverter = (scriptInput, layout) => {
             const i = keyArrays.length
             const value = line.substring(7)
             const comment = commentEscape(value)
+            const shortComment = commentCut(value)
 
-            commands.push(`duckyString(key_arr_${i}, sizeof(key_arr_${i})); // ${comment}`)
+            addCodeLine(`duckyString(key_arr_${i}, sizeof(key_arr_${i})); // STRING ${shortComment}`)
+
             keyArrays.push({
                 comment: comment,
                 value: encodeString(value, layout, i),
@@ -355,28 +387,27 @@ const digisparkConverter = (scriptInput, layout) => {
         }
         // REM
         else if (line.startsWith('REM')) {
-            commands.push(`// ${line.substring(4)}`)
+            addCodeLine(`// ${line.substring(4)}`)
         }
         // DELAY
         else if (line.startsWith('DELAY')) {
             const value = parseInt(line.substring(6))
-            commands.push(`DigiKeyboard.delay(${value});`)
+            addCodeLine(`DigiKeyboard.delay(${value}); // DELAY ${value}`)
         }
         // REPEAT
         else if (line.startsWith('REPEAT') || line.startsWith('REPLAY')) {
             const value = parseInt(line.substring(7))
-            let prevCommand = commands.at(-1)
+            let prevLine = codeLines.at(-1)
 
-            commands.push(`for(size_t i=0; i<${value}; ++i) {`)
-            commands.push(prevCommand)
-            commands.push(`}`)
+            addCodeLine(`for(size_t i=0; i<${value}; ++i) {`)
+            addCodeLine(prevLine)
+            addCodeLine(`}`)
         }
         // DEFAULTDELAY
         else if (line.startsWith('DEFAULTDELAY') || line.startsWith('DEFAULT_DELAY')) {
-            const value = line.replace('DEFAULTDELAY ','').replace('DEFAULT_DELAY ','')
-            
+            const value = line.replace('DEFAULTDELAY ', '').replace('DEFAULT_DELAY ', '')
+
             defaultDelay = parseInt(value)// * 10
-            console.log("New default delay", defaultDelay)
         }
         // KEYCODE
         else if (line.startsWith('KEYCODE')) {
@@ -389,11 +420,11 @@ const digisparkConverter = (scriptInput, layout) => {
             const mods = parseInt(modStr, modStr.startsWith('0x') ? 16 : 10)
             const key = parseInt(keyStr, keyStr.startsWith('0x') ? 16 : 10)
 
-            commands.push(`DigiKeyboard.sendKeyStroke(${key.toString()}, ${mods.toString()}); // ${line}`)
+            addCodeLine(`DigiKeyboard.sendKeyStroke(${key.toString()}, ${mods.toString()}); // ${line}`)
         }
         // KEYCODE
         else if (line.startsWith('LOCALE') || line.startsWith('DUCKY_LANG ')) {
-            commands.push(`#warning LOCALE/DUCKY_LANG ignored ('${line}')`)
+            addCodeLine(`#warning LOCALE/DUCKY_LANG ignored ('${line}')`)
         }
         // LOOP
         else if (line.startsWith('LOOP')) {
@@ -406,15 +437,15 @@ const digisparkConverter = (scriptInput, layout) => {
                 if (words.length === 2) {
                     const loops = parseInt(words[1])
 
-                    commands.push(`for(size_t i=0; i<${loops}; ++i) {`)
+                    addCodeLine(`for(size_t i=0; i<${loops}; ++i) {`)
                 } else {
-                    commands.push(`while(true) {`)
+                    addCodeLine(`while(true) {`)
                 }
             } else if (words[0] === 'END' && inLoop) {
                 inLoop = false
-                commands.push(`}`)
+                addCodeLine(`}`)
             } else {
-                commands.push(`#error Couldn't parse '${line}'`)
+                addCodeLine(`#error Couldn't parse '${line}'`)
             }
         }
         // LED
@@ -423,9 +454,9 @@ const digisparkConverter = (scriptInput, layout) => {
             const words = value.split(' ')
 
             if (words[0] !== '0' && words[0] !== 'OFF') {
-                commands.push(`digitalWrite(1, HIGH);`)
+                addCodeLine(`digitalWrite(1, HIGH);`)
             } else if (words[0] === 'OFF') {
-                commands.push(`digitalWrite(1, LOW);`)
+                addCodeLine(`digitalWrite(1, LOW);`)
             }
         }
         // Key combinations
@@ -438,7 +469,7 @@ const digisparkConverter = (scriptInput, layout) => {
                 if (key === 0x00) {
                     key = value
                 } else {
-                    commands.push(`#error Too many keys in line '${line}' - Digispark only allows 1 key + modifiers`)
+                    addCodeLine(`#error Too many keys in line '${line}' - Digispark only allows 1 key + modifiers`)
                 }
             }
 
@@ -450,12 +481,12 @@ const digisparkConverter = (scriptInput, layout) => {
                 } else if (word in charMap) {
                     setKey(charMap[word])
                 } else {
-                    commands.push(`#error Could not parse '${word}'`)
+                    addCodeLine(`#error Could not parse '${word}'`)
                 }
             })
 
             if (mods !== 0x00 || key !== 0x00) {
-                commands.push(`DigiKeyboard.sendKeyStroke(${key.toString()}, ${mods.toString()}); // ${line}`)
+                addCodeLine(`DigiKeyboard.sendKeyStroke(${key.toString()}, ${mods.toString()}); // ${line}`)
             }
         }
 
@@ -492,15 +523,15 @@ void setup() {
     let indent = false
 
     // Each line
-    commands.forEach((command) => {
-        if (command === '}') indent = false
+    codeLines.forEach(codeLine => {
+        if (codeLine.type === 'indent-end') indent = false
 
         if (indent) output += `    `
-        output += `    ${command}\n`
+        output += `    ${codeLine.value}\n`
 
-        if (command.startsWith('for') || command.startsWith('while')) indent = true
+        if (codeLine.indent === 'indent-start') indent = true
 
-        if (defaultDelay && !command.startsWith('for') && !command.startsWith('while') && command !== '}') {
+        if (defaultDelay && codeLine.type === 'command') {
             if (indent) output += `    `
             output += `    DigiKeyboard.delay(${defaultDelay});\n`
         }
