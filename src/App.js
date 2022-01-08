@@ -30,7 +30,7 @@ const App = () => {
   const layout = cleanLayout(locale_de.keys)
 
   const convert_digispark = () => {
-    setOutput(digisparkConverter(input, layout))
+    setOutput(digisparkConverter(input, layout, version))
   }
 
   const handle_new_input = (event) => {

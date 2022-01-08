@@ -302,7 +302,7 @@ const commentCut = (str) => {
     return str
 }
 
-const digisparkConverter = (scriptInput, layout) => {
+const digisparkConverter = (scriptInput, layout, version) => {
     let output = ''
 
     const keyArrays = []
@@ -493,7 +493,10 @@ const digisparkConverter = (scriptInput, layout) => {
     })
 
     // Digispark sketch prefix
-    output += `// [ ===== Converted using duckify.huhn.me ===== ] //
+    output += `// [ ===== Created using ${version.domain} @ ${version.name} ===== ] //
+// Duckify is a free and Open-Source web-app for converting Ducky Script into Arduino code.
+// Please consider supporting us on ko-fi.com/spacehuhn <3
+// Learn more about us at spacehuhn.com
 
 #include "DigiKeyboard.h"
 \n`
@@ -543,7 +546,9 @@ void setup() {
     }
 
     // Digispark sketch suffix
-    output += `}\n\nvoid loop() {}\n`
+    output += `}\n\nvoid loop() {}
+
+// Created using ${version.domain} @ ${version.name}`
 
     return output
 }
