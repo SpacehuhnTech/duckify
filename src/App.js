@@ -9,9 +9,11 @@ import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
+import Snackbar from '@mui/material/Snackbar'
 
 import version from './version.js'
 import digisparkConverter from './modules/digispark.js'
+import downloadFile from './modules/downloadHelper.js'
 
 import locale_us from './layouts/us.json'
 import locale_de from './layouts/de.json'
@@ -22,7 +24,12 @@ import Header from './Header.js'
 const App = () => {
   const [input, setInput] = React.useState('')
   const [output, setOutput] = React.useState('')
+
   const [layoutStr, setLayoutStr] = React.useState('de')
+
+  // Snackbar notification
+  const [open, setOpen] = React.useState(false)
+  const [message, setMessage] = React.useState('Copied to clipboard')
 
   const convert_digispark = () => {
     let layout = []
@@ -35,6 +42,48 @@ const App = () => {
 
   const handle_new_input = (event) => {
     setInput(event.target.value)
+  }
+
+  const copyDuck = () => {
+    navigator.clipboard.writeText(input)
+    setMessage('Copied to clipboard')
+    setOpen(true)
+  }
+
+  const downloadDuck = () => {
+    const date = new Date()
+    const dateStr = date.toISOString().substring(0,10)
+
+    let script = input
+
+    // Force a linebreak at the end
+    if(!input.endsWith('\n')) {
+      script += '\n'
+      setInput(script)
+    }
+
+    downloadFile({
+      data: script,
+      fileName: `DuckifyScript-${dateStr}.txt`,
+      fileType: 'text/plain',
+    })
+  }
+
+  const copyDigi = () => {
+    navigator.clipboard.writeText(output)
+    setMessage('Copied to clipboard')
+    setOpen(true)
+  }
+
+  const downloadDigi = () => {
+    const date = new Date()
+    const dateStr = date.toISOString().substring(0,10)
+
+    downloadFile({
+      data: output,
+      fileName: `DuckifySketch-${dateStr}.ino`,
+      fileType: 'text/plain',
+    })
   }
 
   return (
@@ -67,7 +116,7 @@ const App = () => {
 
             { /* Convert Button */}
             <Grid item>
-              <Button variant='contained' color='success' size='large' onClick={convert_digispark} sx={{mt: '.4em'}}>
+              <Button variant='contained' color='success' size='large' onClick={convert_digispark} sx={{ mt: '.4em' }}>
                 Convert
               </Button>
             </Grid>
@@ -80,15 +129,28 @@ const App = () => {
             variant='overline'
             component='h2'
             align='center'
-          >
-            Input (Ducky Script)
-          </Typography>
+          >Input (BadUSB Script)</Typography>
+
           <TextField
             multiline
             fullWidth
             onChange={handle_new_input}
             minRows={4}
+            placeholder='REM paste your script here'
           />
+
+          <Button
+            variant='text'
+            onClick={copyDuck}>
+            Copy
+          </Button>
+
+          <Button
+            variant='text'
+            onClick={downloadDuck}>
+            Download
+          </Button>
+
         </Grid>
 
         { /* ===== Output ===== */}
@@ -97,15 +159,28 @@ const App = () => {
             variant='overline'
             component='h2'
             align='center'
-          >
-            Output (Digispark Sketch)
-          </Typography>
+          >Output (Digispark Sketch)</Typography>
+
           <TextField
             multiline
             fullWidth
             value={output}
             minRows={4}
+            readonly
+            placeholder='Arduino sketch for Digispark'
           />
+
+          <Button
+            variant='text'
+            onClick={copyDigi}>
+            Copy
+          </Button>
+
+          <Button
+            variant='text'
+            onClick={downloadDigi}>
+            Download
+          </Button>
         </Grid>
 
       </Grid>
@@ -118,6 +193,13 @@ const App = () => {
         sx={{ color: '#ddd' }}>
         {version.name}
       </Typography>
+
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={() => setOpen(false)}
+        message={message}
+      />
     </Box>
   )
 }
