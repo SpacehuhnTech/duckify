@@ -15,9 +15,7 @@ import version from './version.js'
 import digisparkConverter from './modules/digispark.js'
 import downloadFile from './modules/downloadHelper.js'
 
-import locale_us from './layouts/us.json'
-import locale_de from './layouts/de.json'
-import locale_ro from './layouts/ro.json'
+import layoutList from './layouts/layoutList.js'
 
 import Header from './Header.js'
 
@@ -25,17 +23,14 @@ const App = () => {
   const [input, setInput] = React.useState('')
   const [output, setOutput] = React.useState('')
 
-  const [layoutStr, setLayoutStr] = React.useState('de')
+  const [layoutStr, setLayoutStr] = React.useState((navigator.language in layoutList) ? navigator.language : 'us')
 
   // Snackbar notification
   const [open, setOpen] = React.useState(false)
   const [message, setMessage] = React.useState('Copied to clipboard')
 
   const convert_digispark = () => {
-    let layout = []
-    if (layoutStr === 'us') layout = locale_us.keys
-    if (layoutStr === 'de') layout = locale_de.keys
-    if (layoutStr === 'ro') layout = locale_ro.keys
+    let layout = layoutList[layoutStr]
 
     setOutput(digisparkConverter(input, layout, version))
   }
