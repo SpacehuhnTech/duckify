@@ -30,7 +30,7 @@ const App = () => {
   const [message, setMessage] = React.useState('Copied to clipboard')
 
   const convert_digispark = () => {
-    let layout = layoutList[layoutStr]
+    let layout = layoutList[layoutStr].keys
 
     setOutput(digisparkConverter(input, layout, version))
   }
@@ -105,9 +105,11 @@ const App = () => {
                   label="Layout"
                   onChange={e => setLayoutStr(e.target.value)}
                 >
-                  <MenuItem value={'us'}>US</MenuItem>
-                  <MenuItem value={'de'}>DE</MenuItem>
-                  <MenuItem value={'ro'}>RO</MenuItem>
+                  {
+                    Object.keys(layoutList).map(layout =>
+                      <MenuItem key={layout} value={layout}>{layout.toUpperCase()}</MenuItem>
+                    )
+                  }
                 </Select>
               </FormControl>
             </Grid>
