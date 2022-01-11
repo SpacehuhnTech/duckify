@@ -52,12 +52,12 @@ const App = () => {
 
   const downloadDuck = () => {
     const date = new Date()
-    const dateStr = date.toISOString().substring(0,10)
+    const dateStr = date.toISOString().substring(0, 10)
 
     let script = input
 
     // Force a linebreak at the end
-    if(!input.endsWith('\n')) {
+    if (!input.endsWith('\n')) {
       script += '\n'
       setInput(script)
     }
@@ -77,7 +77,7 @@ const App = () => {
 
   const downloadDigi = () => {
     const date = new Date()
-    const dateStr = date.toISOString().substring(0,10)
+    const dateStr = date.toISOString().substring(0, 10)
 
     downloadFile({
       data: output,
@@ -100,7 +100,10 @@ const App = () => {
 
             { /* Layout */}
             <Grid item>
-              <FormControl sx={{ minWidth: 120 }} fullWidth>
+              <FormControl
+                sx={{ minWidth: 120 }}
+                fullWidth
+                size='small'>
                 <InputLabel>Layout</InputLabel>
                 <Select
                   value={layoutStr}
@@ -116,7 +119,7 @@ const App = () => {
 
             { /* Convert Button */}
             <Grid item>
-              <Button variant='contained' color='success' size='large' onClick={convert_digispark} sx={{ mt: '.4em' }}>
+              <Button variant='contained' color='success' onClick={convert_digispark} >
                 Convert
               </Button>
             </Grid>
@@ -124,19 +127,23 @@ const App = () => {
         </Grid>
 
         { /* ===== Input ===== */}
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6}>
           <Typography
             variant='overline'
             component='h2'
             align='center'
+            sx={{
+              marginBottom: '-2.5em',
+              color: '#aaa',
+            }}
           >Input (BadUSB Script)</Typography>
 
           <TextField
             multiline
             fullWidth
             onChange={handle_new_input}
-            minRows={4}
-            placeholder='REM paste your script here'
+            minRows={12}
+            maxRows={12}
           />
 
           <Button
@@ -154,20 +161,24 @@ const App = () => {
         </Grid>
 
         { /* ===== Output ===== */}
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6}>
           <Typography
             variant='overline'
             component='h2'
             align='center'
+            sx={{
+              marginBottom: '-2.5em',
+              color: '#aaa',
+            }}
           >Output (Digispark Sketch)</Typography>
 
           <TextField
             multiline
             fullWidth
             value={output}
-            minRows={4}
-            readonly
-            placeholder='Arduino sketch for Digispark'
+            minRows={12}
+            maxRows={12}
+            readOnly
           />
 
           <Button
