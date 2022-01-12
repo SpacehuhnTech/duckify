@@ -7,6 +7,7 @@ import locale_si from './si.json'
 import locale_sk from './sk.json'
 import locale_be from './be.json'
 import locale_fr from './fr.json'
+import locale_cafr from './ca-fr.json'
 
 const layoutList = {
     'us': locale_us,
@@ -18,6 +19,7 @@ const layoutList = {
     'sk': locale_sk,
     'be': locale_be,
     'fr': locale_fr,
+    'ca-fr': locale_cafr,
 }
 
 export default layoutList
