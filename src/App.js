@@ -93,20 +93,20 @@ const App = () => {
         <Grid item xs={12}>
           <Grid container spacing={1}>
 
-            { /* Layout */}
+            { /* Keyboard Layout */}
             <Grid item>
               <FormControl
                 sx={{ minWidth: 120 }}
                 fullWidth
                 size='small'>
-                <InputLabel>Layout</InputLabel>
+                <InputLabel>Keyboard</InputLabel>
                 <Select
                   value={layoutStr}
-                  label="Layout"
+                  label="Keyboard"
                   onChange={e => setLayoutStr(e.target.value)}
                 >
                   {
-                    Object.keys(layoutList).map(layout =>
+                    Object.keys(layoutList).sort().map(layout =>
                       <MenuItem key={layout} value={layout}>{layout.toUpperCase()}</MenuItem>
                     )
                   }
