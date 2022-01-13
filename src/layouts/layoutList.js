@@ -14,6 +14,7 @@ import locale_cz from './cz.json'
 import locale_dk from './dk.json'
 import locale_gb from './gb.json'
 import locale_ru from './ru.json'
+import locale_in from './in.json'
 
 const layoutList = {
     'us': locale_us,
@@ -32,6 +33,7 @@ const layoutList = {
     'dk': locale_dk,
     'gb': locale_gb,
     'ru': locale_ru,
+    'in': locale_in,
 }
 
 export default layoutList
