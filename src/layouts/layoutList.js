@@ -18,6 +18,7 @@ import locale_in from './in.json'
 import locale_nl from './nl.json'
 import locale_chde from './ch-de.json'
 import locale_chfr from './ch-fr.json'
+import locale_no from './no.json'
 
 const layoutList = {
     'us': locale_us,
@@ -40,6 +41,7 @@ const layoutList = {
     'nl': locale_nl,
     'ch-de': locale_chde,
     'ch-fr': locale_chfr,
+    'no': locale_no,
 }
 
 export default layoutList
