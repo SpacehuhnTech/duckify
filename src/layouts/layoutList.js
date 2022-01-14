@@ -32,6 +32,7 @@ import locale_bg from './bg.json'
 import locale_ua from './ua.json'
 import locale_ptbr from './pt-br.json'
 import locale_esmx from './es-mx.json'
+import locale_tr from './tr.json'
 
 const layoutList = {
     'us': locale_us,
@@ -68,6 +69,7 @@ const layoutList = {
     'ua': locale_ua,
     'pt-br': locale_ptbr,
     'es-mx': locale_esmx,
+    'tr': locale_tr,
 }
 
 export default layoutList
