@@ -23,6 +23,7 @@ import locale_se from './se.json'
 import locale_is from './is.json'
 import locale_fi from './fi.json'
 import locale_lv from './lv.json'
+import locale_ee from './ee.json'
 
 const layoutList = {
     'us': locale_us,
@@ -50,6 +51,7 @@ const layoutList = {
     'is': locale_is,
     'fi': locale_fi,
     'lv': locale_lv,
+    'ee': locale_ee,
 }
 
 export default layoutList
