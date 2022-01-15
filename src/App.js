@@ -5,37 +5,35 @@ import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
-import Select from '@mui/material/Select'
 import Snackbar from '@mui/material/Snackbar'
 
 import version from './version.js'
-import digisparkConverter from './modules/digispark.js'
+import convertToDigispark from './modules/digispark.js'
 import downloadFile from './modules/downloadHelper.js'
-
 import layoutList from './layouts/layoutList.js'
 
 import Header from './Header.js'
+import LayoutSelector from './LayoutSelector.js'
 
 const App = () => {
+  const [layoutName, setLayoutName] = React.useState((navigator.language in layoutList) ? navigator.language : 'us')
+
   const [input, setInput] = React.useState('')
   const [output, setOutput] = React.useState('')
-
-  const [layoutStr, setLayoutStr] = React.useState((navigator.language in layoutList) ? navigator.language : 'us')
 
   // Snackbar notification
   const [open, setOpen] = React.useState(false)
   const [message, setMessage] = React.useState('Copied to clipboard')
 
-  const convert_digispark = () => {
-    let layout = layoutList[layoutStr].keys
-
-    setOutput(digisparkConverter(input, layout, version))
+  const getLayout = () => {
+    return layoutList[layoutName].keys
   }
 
-  const handle_new_input = (event) => {
+  const convertDigispark = () => {
+    setOutput(convertToDigispark(input, layoutName, getLayout(), version))
+  }
+
+  const handleNewInput = (event) => {
     setInput(event.target.value)
   }
 
@@ -95,28 +93,16 @@ const App = () => {
 
             { /* Keyboard Layout */}
             <Grid item>
-              <FormControl
-                sx={{ minWidth: 120 }}
-                fullWidth
-                size='small'>
-                <InputLabel>Keyboard</InputLabel>
-                <Select
-                  value={layoutStr}
-                  label="Keyboard"
-                  onChange={e => setLayoutStr(e.target.value)}
-                >
-                  {
-                    Object.keys(layoutList).sort().map(layout =>
-                      <MenuItem key={layout} value={layout}>{layout.toUpperCase()}</MenuItem>
-                    )
-                  }
-                </Select>
-              </FormControl>
+              <LayoutSelector
+                layoutName={layoutName}
+                layoutList={layoutList}
+                setLayoutName={setLayoutName}
+              />
             </Grid>
 
             { /* Convert Button */}
             <Grid item>
-              <Button variant='contained' color='success' onClick={convert_digispark} >
+              <Button variant='contained' color='success' onClick={convertDigispark} >
                 Convert
               </Button>
             </Grid>
@@ -138,7 +124,7 @@ const App = () => {
           <TextField
             multiline
             fullWidth
-            onChange={handle_new_input}
+            onChange={handleNewInput}
             minRows={12}
             maxRows={12}
           />
