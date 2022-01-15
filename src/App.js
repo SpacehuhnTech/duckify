@@ -11,12 +11,27 @@ import version from './version.js'
 import convertToDigispark from './modules/digispark.js'
 import downloadFile from './modules/downloadHelper.js'
 import layoutList from './layouts/layoutList.js'
+import { setCookie, getCookie } from './modules/cookie.js'
 
 import Header from './Header.js'
 import LayoutSelector from './LayoutSelector.js'
 
+const loadLayout = () => {
+  let layout = 'us'
+  const cookieValue = getCookie('layout')
+
+  if(cookieValue !== '' && cookieValue in layoutList) {
+    layout = cookieValue
+  } else if(navigator.language in layoutList) {
+    layout = navigator.language
+  }
+
+  setCookie('layout', layout, 365)
+  return layout
+}
+
 const App = () => {
-  const [layoutName, setLayoutName] = React.useState((navigator.language in layoutList) ? navigator.language : 'us')
+  const [layoutName, setLayoutName] = React.useState(loadLayout())
 
   const [input, setInput] = React.useState('')
   const [output, setOutput] = React.useState('')
@@ -24,6 +39,11 @@ const App = () => {
   // Snackbar notification
   const [open, setOpen] = React.useState(false)
   const [message, setMessage] = React.useState('Copied to clipboard')
+
+  const changeLayout = (newLayout) => {
+    setCookie('layout', newLayout)
+    setLayoutName(newLayout)
+  }
 
   const getLayout = () => {
     return layoutList[layoutName].keys
@@ -96,7 +116,7 @@ const App = () => {
               <LayoutSelector
                 layoutName={layoutName}
                 layoutList={layoutList}
-                setLayoutName={setLayoutName}
+                setLayoutName={changeLayout}
               />
             </Grid>
 
