@@ -7,6 +7,7 @@ import locale_si from './si.json'
 import locale_sk from './sk.json'
 import locale_be from './be.json'
 import locale_fr from './fr.json'
+import locale_cacms from './ca-cms.json'
 import locale_cafr from './ca-fr.json'
 import locale_pl from './pl.json'
 import locale_pt from './pt.json'
@@ -44,6 +45,7 @@ const layoutList = {
     'sk': locale_sk,
     'be': locale_be,
     'fr': locale_fr,
+    'ca-cms': locale_cacms,
     'ca-fr': locale_cafr,
     'pl': locale_pl,
     'pt': locale_pt,
