@@ -30,8 +30,25 @@ const loadLayout = () => {
   return layoutName
 }
 
+const loadScriptName = () => {
+  const date = new Date()
+  const dateStr = date.toISOString().substring(0, 10)
+
+  let scriptName = `DuckifyScript-${dateStr}`
+
+  const cookieValue = getCookie('scriptName')
+
+  if (cookieValue !== '') {
+    scriptName = cookieValue
+  }
+
+  setCookie('scriptName', scriptName, 365)
+  return scriptName
+}
+
 const App = () => {
   const [layoutName, setLayoutName] = React.useState(loadLayout())
+  const [scriptName, setScriptName] = React.useState(loadScriptName())
 
   const [input, setInput] = React.useState('')
   const [output, setOutput] = React.useState('')
@@ -60,9 +77,6 @@ const App = () => {
   }
 
   const downloadDuck = () => {
-    const date = new Date()
-    const dateStr = date.toISOString().substring(0, 10)
-
     let script = input
 
     // Force a linebreak at the end
@@ -73,7 +87,7 @@ const App = () => {
 
     downloadFile({
       data: script,
-      fileName: `DuckifyScript-${dateStr}.txt`,
+      fileName: `${scriptName}.txt`,
       fileType: 'text/plain',
     })
   }
@@ -85,12 +99,9 @@ const App = () => {
   }
 
   const downloadDigi = () => {
-    const date = new Date()
-    const dateStr = date.toISOString().substring(0, 10)
-
     downloadFile({
       data: output,
-      fileName: `DuckifySketch-${dateStr}.ino`,
+      fileName: `${scriptName}.ino`,
       fileType: 'text/plain',
     })
   }
@@ -132,6 +143,11 @@ const App = () => {
             layoutList={layoutList}
             setLayoutName={changeLayout}
             convertDigispark={convertDigispark}
+            scriptName={scriptName}
+            setScriptName={(name) => {
+              setScriptName(name)
+              setCookie('scriptName', name, 365)
+            }}
           />
         </Grid>
 
