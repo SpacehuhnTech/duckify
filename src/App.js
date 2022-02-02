@@ -7,6 +7,9 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import Snackbar from '@mui/material/Snackbar'
 import Link from '@mui/material/Link'
+import IconButton from '@mui/material/IconButton'
+import DownloadIcon from '@mui/icons-material/Download'
+import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 
 import version from './version.js'
 import convertToDigispark from './modules/digispark.js'
@@ -21,9 +24,9 @@ const loadLayout = () => {
   let layout = 'us'
   const cookieValue = getCookie('layout')
 
-  if(cookieValue !== '' && cookieValue in layoutList) {
+  if (cookieValue !== '' && cookieValue in layoutList) {
     layout = cookieValue
-  } else if(navigator.language in layoutList) {
+  } else if (navigator.language in layoutList) {
     layout = navigator.language
   }
 
@@ -139,29 +142,46 @@ const App = () => {
             sx={{
               marginBottom: '-2.5em',
               color: '#aaa',
-            }}
-          >Input (BadUSB Script)</Typography>
+            }}>
+            Input (BadUSB Script)
+          </Typography>
 
           <TextField
             multiline
             fullWidth
             onChange={handleNewInput}
-            minRows={12}
-            maxRows={12}
+            minRows={14}
+            maxRows={14}
+            InputProps={{
+              style: {
+                paddingTop: 20,
+                paddingRight: 1,
+                paddingBottom: 1,
+              }
+            }}
           />
+          <Grid
+            container
+            direction='row'
+            justifyContent='flex-end'
+            alignItems='flex-start'
+            sx={{ mt: -5 }}>
+            <Grid item>
+              <IconButton
+                onClick={copyDuck}
+                aria-label='copy'>
+                <ContentCopyIcon />
+              </IconButton>
+            </Grid>
 
-          <Button
-            variant='text'
-            onClick={copyDuck}>
-            Copy
-          </Button>
-
-          <Button
-            variant='text'
-            onClick={downloadDuck}>
-            Download
-          </Button>
-
+            <Grid item>
+              <IconButton
+                onClick={downloadDuck}
+                aria-label='download'>
+                <DownloadIcon />
+              </IconButton>
+            </Grid>
+          </Grid>
         </Grid>
 
         { /* ===== Output ===== */}
@@ -180,27 +200,44 @@ const App = () => {
             multiline
             fullWidth
             value={output}
-            minRows={12}
-            maxRows={12}
+            minRows={14}
+            maxRows={14}
             readOnly
+            InputProps={{
+              style: {
+                paddingTop: 20,
+                paddingRight: 1,
+                paddingBottom: 1,
+              }
+            }}
           />
+          <Grid
+            container
+            direction='row'
+            justifyContent='flex-end'
+            alignItems='flex-start'
+            sx={{ mt: -5 }}>
+            <Grid item>
+              <IconButton
+                onClick={copyDigi}
+                aria-label='copy'>
+                <ContentCopyIcon />
+              </IconButton>
+            </Grid>
 
-          <Button
-            variant='text'
-            onClick={copyDigi}>
-            Copy
-          </Button>
-
-          <Button
-            variant='text'
-            onClick={downloadDigi}>
-            Download
-          </Button>
+            <Grid item>
+              <IconButton
+                onClick={downloadDigi}
+                aria-label='download'>
+                <DownloadIcon />
+              </IconButton>
+            </Grid>
+          </Grid>
         </Grid>
 
       </Grid>
 
-      { /* Made in Germany :D */ }
+      { /* Made in Germany :D */}
       <Typography
         align='center'
         display='block'>
