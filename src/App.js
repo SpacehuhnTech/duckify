@@ -10,7 +10,7 @@ import Link from '@mui/material/Link'
 import version from './version.js'
 import convertToDigispark from './modules/digispark.js'
 import downloadFile from './modules/downloadHelper.js'
-import layoutList from './layouts/layoutList.js'
+import layoutList from './library/layoutList.js'
 import { setCookie, getCookie } from './modules/cookie.js'
 
 import Header from './Header.js'
@@ -18,17 +18,17 @@ import LayoutSelector from './LayoutSelector.js'
 import TextArea from './TextArea.js'
 
 const loadLayout = () => {
-  let layout = 'us'
-  const cookieValue = getCookie('layout')
+  let layoutName = 'us'
+  const cookieValue = getCookie('layoutName')
 
-  if (cookieValue !== '' && cookieValue in layoutList) {
-    layout = cookieValue
-  } else if (navigator.language in layoutList) {
-    layout = navigator.language
+  if (cookieValue !== '' && layoutList.some(e => e.name === cookieValue)) {
+    layoutName = cookieValue
+  } else if (layoutList.some(e => e.name === navigator.language)) {
+    layoutName = navigator.language
   }
 
-  setCookie('layout', layout, 365)
-  return layout
+  setCookie('layoutName', layoutName, 365)
+  return layoutName
 }
 
 const App = () => {
@@ -47,7 +47,7 @@ const App = () => {
   }
 
   const getLayout = () => {
-    return layoutList[layoutName].keys
+    return layoutList.find(e => e.name === layoutName).json.keys
   }
 
   const convertDigispark = () => {

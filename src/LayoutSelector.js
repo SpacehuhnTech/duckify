@@ -13,7 +13,7 @@ const LayoutSelector = (props) => {
 
     return (
         <FormControl
-            sx={{ minWidth: 120 }}
+            sx={{ minWidth: 135 }}
             fullWidth
             size='small'>
             <InputLabel>Keyboard</InputLabel>
@@ -23,8 +23,10 @@ const LayoutSelector = (props) => {
                 onChange={changeLayout}
             >
                 {
-                    Object.keys(props.layoutList).sort().map(layout =>
-                        <MenuItem key={layout} value={layout}>{layout.toUpperCase()}</MenuItem>
+                    props.layoutList.sort((a,b) => {
+                        return a.name.localeCompare(b.name)
+                    }).map(layout =>
+                        <MenuItem key={layout.name} value={layout.name}>{layout.flag} {layout.name.toUpperCase()}</MenuItem>
                     )
                 }
             </Select>
