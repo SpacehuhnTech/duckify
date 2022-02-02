@@ -6,6 +6,7 @@ import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import Snackbar from '@mui/material/Snackbar'
+import Link from '@mui/material/Link'
 
 import version from './version.js'
 import convertToDigispark from './modules/digispark.js'
@@ -198,6 +199,13 @@ const App = () => {
         </Grid>
 
       </Grid>
+
+      { /* Made in Germany :D */ }
+      <Typography
+        align='center'
+        display='block'>
+        Made with ❤️ by <Link href='https://spacehuhn.com' target='_blank' underline='hover' color='inherit'>Spacehuhn</Link>
+      </Typography>
 
       { /* Version */}
       <Typography
