@@ -3,13 +3,9 @@ import React from 'react'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import Snackbar from '@mui/material/Snackbar'
 import Link from '@mui/material/Link'
-import IconButton from '@mui/material/IconButton'
-import DownloadIcon from '@mui/icons-material/Download'
-import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 
 import version from './version.js'
 import convertToDigispark from './modules/digispark.js'
@@ -19,6 +15,7 @@ import { setCookie, getCookie } from './modules/cookie.js'
 
 import Header from './Header.js'
 import LayoutSelector from './LayoutSelector.js'
+import TextArea from './TextArea.js'
 
 const loadLayout = () => {
   let layout = 'us'
@@ -55,10 +52,6 @@ const App = () => {
 
   const convertDigispark = () => {
     setOutput(convertToDigispark(input, layoutName, getLayout(), version))
-  }
-
-  const handleNewInput = (event) => {
-    setInput(event.target.value)
   }
 
   const copyDuck = () => {
@@ -135,106 +128,25 @@ const App = () => {
 
         { /* ===== Input ===== */}
         <Grid item xs={12} sm={6}>
-          <Typography
-            variant='overline'
-            component='h2'
-            align='center'
-            sx={{
-              marginBottom: '-2.5em',
-              color: '#aaa',
-            }}>
-            Input (BadUSB Script)
-          </Typography>
-
-          <TextField
-            multiline
-            fullWidth
-            onChange={handleNewInput}
-            minRows={14}
-            maxRows={14}
-            InputProps={{
-              style: {
-                paddingTop: 20,
-                paddingRight: 1,
-                paddingBottom: 1,
-              }
-            }}
+          <TextArea
+            title='Input (BadUSB Script)'
+            onCopy={copyDuck}
+            onDownload={downloadDuck}
+            value={input}
+            setValue={setInput}
           />
-          <Grid
-            container
-            direction='row'
-            justifyContent='flex-end'
-            alignItems='flex-start'
-            sx={{ mt: -5 }}>
-            <Grid item>
-              <IconButton
-                onClick={copyDuck}
-                aria-label='copy'>
-                <ContentCopyIcon />
-              </IconButton>
-            </Grid>
-
-            <Grid item>
-              <IconButton
-                onClick={downloadDuck}
-                aria-label='download'>
-                <DownloadIcon />
-              </IconButton>
-            </Grid>
-          </Grid>
         </Grid>
 
         { /* ===== Output ===== */}
         <Grid item xs={12} sm={6}>
-          <Typography
-            variant='overline'
-            component='h2'
-            align='center'
-            sx={{
-              marginBottom: '-2.5em',
-              color: '#aaa',
-            }}
-          >Output (Digispark Sketch)</Typography>
-
-          <TextField
-            multiline
-            fullWidth
+          <TextArea
+            title='Output (Digispark Sketch)'
+            onCopy={copyDigi}
+            onDownload={downloadDigi}
             value={output}
-            minRows={14}
-            maxRows={14}
-            readOnly
-            InputProps={{
-              style: {
-                paddingTop: 20,
-                paddingRight: 1,
-                paddingBottom: 1,
-              }
-            }}
+            setValue={setOutput}
           />
-          <Grid
-            container
-            direction='row'
-            justifyContent='flex-end'
-            alignItems='flex-start'
-            sx={{ mt: -5 }}>
-            <Grid item>
-              <IconButton
-                onClick={copyDigi}
-                aria-label='copy'>
-                <ContentCopyIcon />
-              </IconButton>
-            </Grid>
-
-            <Grid item>
-              <IconButton
-                onClick={downloadDigi}
-                aria-label='download'>
-                <DownloadIcon />
-              </IconButton>
-            </Grid>
-          </Grid>
         </Grid>
-
       </Grid>
 
       { /* Made in Germany :D */}
