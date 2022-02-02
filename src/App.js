@@ -2,7 +2,6 @@ import React from 'react'
 
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Snackbar from '@mui/material/Snackbar'
 import Link from '@mui/material/Link'
@@ -14,7 +13,7 @@ import layoutList from './library/layoutList.js'
 import { setCookie, getCookie } from './modules/cookie.js'
 
 import Header from './Header.js'
-import LayoutSelector from './LayoutSelector.js'
+import Controls from './Controls.js'
 import TextArea from './TextArea.js'
 
 const loadLayout = () => {
@@ -104,28 +103,6 @@ const App = () => {
       { /* ===== Body (Split View) ===== */}
       <Grid container spacing={1} sx={{ p: 2 }}>
 
-        { /* ===== Controls ===== */}
-        <Grid item xs={12}>
-          <Grid container spacing={1}>
-
-            { /* Keyboard Layout */}
-            <Grid item>
-              <LayoutSelector
-                layoutName={layoutName}
-                layoutList={layoutList}
-                setLayoutName={changeLayout}
-              />
-            </Grid>
-
-            { /* Convert Button */}
-            <Grid item>
-              <Button variant='contained' color='success' onClick={convertDigispark} >
-                Convert
-              </Button>
-            </Grid>
-          </Grid>
-        </Grid>
-
         { /* ===== Input ===== */}
         <Grid item xs={12} sm={6}>
           <TextArea
@@ -145,6 +122,16 @@ const App = () => {
             onDownload={downloadDigi}
             value={output}
             setValue={setOutput}
+          />
+        </Grid>
+
+        { /* ===== Controls ===== */}
+        <Grid item xs={12}>
+          <Controls
+            layoutName={layoutName}
+            layoutList={layoutList}
+            setLayoutName={changeLayout}
+            convertDigispark={convertDigispark}
           />
         </Grid>
 
