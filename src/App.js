@@ -12,9 +12,9 @@ import downloadFile from './modules/downloadHelper.js'
 import layoutList from './library/layoutList.js'
 import { setCookie, getCookie } from './modules/cookie.js'
 
-import Header from './Header.js'
-import Controls from './Controls.js'
-import TextArea from './TextArea.js'
+import Header from './components/Header.js'
+import Controls from './components/Controls.js'
+import TextArea from './components/TextArea.js'
 
 const loadLayout = () => {
   let layoutName = 'us'
