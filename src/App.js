@@ -147,14 +147,16 @@ const App = () => {
             setValue={setOutput}
           />
         </Grid>
-      </Grid>
 
-      { /* Made in Germany :D */}
-      <Typography
-        align='center'
-        display='block'>
-        Made with ❤️ by <Link href='https://spacehuhn.com' target='_blank' underline='hover' color='inherit'>Spacehuhn</Link>
-      </Typography>
+        { /* Made in Germany :D */}
+        <Box sx={{ mx: 'auto', mt: 5 }}>
+          <Typography
+            align='center'
+            display='block'>
+            Made with ❤️ by <Link href='https://spacehuhn.com' target='_blank' underline='hover' color='inherit'>Spacehuhn</Link>
+          </Typography>
+        </Box>
+      </Grid>
 
       { /* Version */}
       <Typography
