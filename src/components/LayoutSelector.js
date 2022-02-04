@@ -6,11 +6,6 @@ import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 
 const LayoutSelector = (props) => {
-    const changeLayout = (e) => {
-        const newLayout = e.target.value
-        props.setLayoutName(newLayout)
-    }
-
     return (
         <FormControl
             sx={{ minWidth: 135 }}
@@ -19,7 +14,7 @@ const LayoutSelector = (props) => {
             <Select
                 value={props.layoutName}
                 label="Keyboard"
-                onChange={changeLayout}
+                onChange={(e) => props.setLayoutName(e.target.value)}
             >
                 {
                     props.layoutList.sort((a, b) => {

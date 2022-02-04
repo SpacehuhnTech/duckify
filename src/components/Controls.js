@@ -5,6 +5,7 @@ import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 
 import LayoutSelector from './LayoutSelector.js'
+import ConverterSelector from './ConverterSelector.js'
 //import SystemSelector from './SystemSelector.js'
 
 const Controls = (props) => {
@@ -27,15 +28,24 @@ const Controls = (props) => {
                 />
             </Grid>
 
+            { /* System */}
+            <Grid item>
+                <ConverterSelector
+                    converter={props.converter}
+                    converterList={props.converterList}
+                    setConverter={props.setConverter}
+                />
+            </Grid>
+
             { /* Script Name */}
             <Grid item>
                 <TextField
                     label='Script Name'
                     variant='outlined'
-                    size='small' 
+                    size='small'
                     onChange={(e) => props.setScriptName(e.target.value)}
                     value={props.scriptName}
-                    />
+                />
             </Grid>
 
             {/* Free Space */}

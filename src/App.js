@@ -7,10 +7,10 @@ import Snackbar from '@mui/material/Snackbar'
 import Link from '@mui/material/Link'
 
 import version from './version.js'
-import convertToDigispark from './modules/digispark.js'
 import downloadFile from './modules/downloadHelper.js'
 import layoutList from './library/layoutList.js'
 import { setCookie, getCookie } from './modules/cookie.js'
+import converterList from './converter/converterList.js'
 
 import Header from './components/Header.js'
 import Controls from './components/Controls.js'
@@ -46,9 +46,23 @@ const loadScriptName = () => {
   return scriptName
 }
 
+const loadConverter = () => {
+  let converterName = 'Digispark'
+  const cookieValue = getCookie('converterName')
+
+  if (cookieValue !== '' && converterList.some(e => e.name === cookieValue)) {
+    converterName = cookieValue
+  } 
+
+  setCookie('converterName', converterName, 365)
+  return converterName
+}
+
 const App = () => {
   const [layoutName, setLayoutName] = React.useState(loadLayout())
   const [scriptName, setScriptName] = React.useState(loadScriptName())
+
+  const [converterName, setConverterName] = React.useState(loadConverter())
 
   const [input, setInput] = React.useState('')
   const [output, setOutput] = React.useState('')
@@ -67,7 +81,8 @@ const App = () => {
   }
 
   const convertDigispark = () => {
-    setOutput(convertToDigispark(input, layoutName, getLayout(), version))
+    const converterFunc = converterList.find(e => e.name === converterName).run
+    setOutput(converterFunc(input, layoutName, getLayout(), version))
   }
 
   const copyDuck = () => {
@@ -128,7 +143,7 @@ const App = () => {
         { /* ===== Output ===== */}
         <Grid item xs={12} sm={6}>
           <TextArea
-            title='Output (Digispark Sketch)'
+            title='Output (Arduino IDE Sketch)'
             onCopy={copyDigi}
             onDownload={downloadDigi}
             value={output}
@@ -147,6 +162,12 @@ const App = () => {
             setScriptName={(name) => {
               setScriptName(name)
               setCookie('scriptName', name, 365)
+            }}
+            converter={converterName}
+            converterList={converterList}
+            setConverter={(name) => {
+              setConverterName(name)
+              setCookie('converterName', name, 365)
             }}
           />
         </Grid>

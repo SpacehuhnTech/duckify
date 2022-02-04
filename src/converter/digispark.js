@@ -1,4 +1,4 @@
-import convertToArduino from './arduinoConverter.js'
+import convert from './arduinoConverter.js'
 
 const convertToDigispark = (scriptInput, layoutName, layout, version) => {
     const delay = (value) => {
@@ -20,7 +20,7 @@ const convertToDigispark = (scriptInput, layoutName, layout, version) => {
     digitalWrite(1, LOW); // Turn LED off
     DigiKeyboard.sendKeyStroke(0); // Tell computer no key is pressed`
 
-    return convertToArduino({
+    return convert({
         platform: 'Digispark',
         layoutName: layoutName,
         scriptInput: scriptInput,
