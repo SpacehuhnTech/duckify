@@ -5,6 +5,7 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import Snackbar from '@mui/material/Snackbar'
 import Link from '@mui/material/Link'
+import Alert from '@mui/material/Alert'
 
 import version from './version.js'
 import downloadFile from './modules/downloadHelper.js'
@@ -52,7 +53,7 @@ const loadConverter = () => {
 
   if (cookieValue !== '' && converterList.some(e => e.name === cookieValue)) {
     converterName = cookieValue
-  } 
+  }
 
   setCookie('converterName', converterName, 365)
   return converterName
@@ -66,6 +67,8 @@ const App = () => {
 
   const [input, setInput] = React.useState('')
   const [output, setOutput] = React.useState('')
+
+  const [notification, setNotification] = React.useState({ mode: 'none', message: '' })
 
   // Snackbar notification
   const [open, setOpen] = React.useState(false)
@@ -81,8 +84,16 @@ const App = () => {
   }
 
   const convertDigispark = () => {
-    const converterFunc = converterList.find(e => e.name === converterName).run
-    setOutput(converterFunc(input, layoutName, getLayout(), version))
+    const converter = converterList.find(e => e.name === converterName)
+    const output = converter.run(input, layoutName, getLayout(), version)
+
+    setOutput(output)
+
+    if (output.includes('#error')) {
+      setNotification({ mode: 'error', message: 'Output contains errors (look for #error)' })
+    } else {
+      setNotification({ mode: 'success', message: 'Script converted successfully! 🎉' })
+    }
   }
 
   const copyDuck = () => {
@@ -128,6 +139,24 @@ const App = () => {
 
       { /* ===== Body (Split View) ===== */}
       <Grid container spacing={1} sx={{ p: 2 }}>
+
+        { /* ===== Notification ===== */}
+        <Grid item xs={12}>
+          {notification.mode !== 'none' &&
+            <Alert
+              severity={notification.mode}
+              onClose={() => setNotification({ mode: 'none', message: '' })}
+            >
+              {notification.message}
+              {notification.mode === 'success' &&
+                <span>
+                  &nbsp;Support this project via&nbsp;
+                  <Link href='https://ko-fi.com/spacehuhn' target='_blank' underline='hover' color='inherit'>ko-fi.com/spacehuhn</Link>
+                </span>
+              }
+            </Alert>
+          }
+        </Grid>
 
         { /* ===== Input ===== */}
         <Grid item xs={12} sm={6}>
