@@ -8,7 +8,12 @@ import InfoIcon from '@mui/icons-material/Info'
 
 const Header = (props) => {
     return (
-        <AppBar position='static' color='primary'>
+        <AppBar
+            position='static'
+            sx={{
+                background: '#ffa733',
+            }}
+        >
             <Toolbar>
                 <img
                     src='logo512.png'
