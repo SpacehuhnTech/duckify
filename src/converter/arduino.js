@@ -6,11 +6,13 @@ const convertToArduino = (scriptInput, layoutName, layout, version) => {
     }
 
     const sendKeyStroke = (mods, keys) => {
-        return `keyboard::typeKey(${keys[0].toString()}, ${mods.toString()});`
+        keys = keys.concat([0,0,0,0,0,0]).splice(0,6)
+
+        return `keyboard::type(${keys.map(key => key.toString()).join(', ')}, ${mods.toString()});`
     }
 
-    const led = (r,g,b) => {
-        const on = (r>0 || g>0 || b>0)
+    const led = (r, g, b) => {
+        const on = (r > 0 || g > 0 || b > 0)
         return `digitalWrite(1, ${on ? 'HIGH' : 'LOW'});`
     }
 
@@ -49,20 +51,16 @@ namespace keyboard {
         prev_report = makeReport();
         send(&prev_report);
     }
-    
-    void pressKey(uint8_t key, uint8_t modifiers) {
-        for (uint8_t i = 0; i < 6; ++i) {
-            if (prev_report.keys[i] == 0x00) {
-            prev_report.modifiers |= modifiers;
-            prev_report.keys[i]    = key;
-            send(&prev_report);
-            return;
-            }
-        }
-    }
 
-    void typeKey(uint8_t key, uint8_t modifiers) {
-        pressKey(key, modifiers);
+    void type(uint8_t key0, uint8_t key1, uint8_t key2, uint8_t key3, uint8_t key4, uint8_t key4, uint8_t modifiers) {
+        prev_report.keys[0] = key0;
+        prev_report.keys[1] = key1;
+        prev_report.keys[2] = key2;
+        prev_report.keys[3] = key3;
+        prev_report.keys[4] = key4;
+        prev_report.keys[5] = key5;
+        prev_report.modifiers = modifiers;
+        send(&prev_report);
         release();
     }
 }
@@ -80,7 +78,7 @@ namespace keyboard {
         delay: delay,
         sendKeyStroke: sendKeyStroke,
         maxKeys: 1,
-        led:led,
+        led: led,
         codeImports: codeImports,
         codeSetup: codeSetup,
     })

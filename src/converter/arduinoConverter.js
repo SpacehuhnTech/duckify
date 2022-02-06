@@ -480,30 +480,22 @@ const convertToArduino = (obj) => {
         else {
             const words = line.split(' ')
             let mods = 0x00
-            let key = 0x00
-
-            const setKey = (value) => {
-                if (key === 0x00) {
-                    key = value
-                } else {
-                    addCodeLine(`#error Too many keys in line '${line}' - Digispark only allows 1 key + modifiers`)
-                }
-            }
-
+            let keys = []
+            
             words.forEach(word => {
                 if (word in modMap) {
                     mods |= modMap[word]
                 } else if (word in keyMap) {
-                    setKey(keyMap[word])
+                    keys.push(keyMap[word])
                 } else if (word in charMap) {
-                    setKey(charMap[word])
+                    keys.push(charMap[word])
                 } else {
                     addCodeLine(`#error Could not parse '${word}'`)
                 }
             })
 
-            if (mods !== 0x00 || key !== 0x00) {
-                addCodeLine(`${obj.sendKeyStroke(mods.toString(), [key.toString()])} // ${line}`)
+            if (mods !== 0x00 || keys.length() > 0) {
+                addCodeLine(`${obj.sendKeyStroke(mods, keys)} // ${line}`)
             }
         }
 

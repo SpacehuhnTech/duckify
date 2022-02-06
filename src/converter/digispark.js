@@ -6,7 +6,13 @@ const convertToDigispark = (scriptInput, layoutName, layout, version) => {
     }
 
     const sendKeyStroke = (mods, keys) => {
-        return `DigiKeyboard.sendKeyStroke(${keys[0].toString()}, ${mods.toString()});`
+        let res = `DigiKeyboard.sendKeyStroke(${keys[0].toString()}, ${mods.toString()});`
+
+        if(keys.length > 1) {
+            res += `\n#error Digispark only allows 1 key + modifiers`
+        }
+
+        return res
     }
 
     const led = (r,g,b) => {
