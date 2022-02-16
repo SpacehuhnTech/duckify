@@ -447,13 +447,20 @@ const convertToArduino = (obj) => {
             const value = line.substring(8)
             const words = value.split(' ')
 
-            const modStr = words.length > 1 ? words[0] : '0x00'
-            const keyStr = words.length > 1 ? words[1] : words[0]
+            if(words.length === 1) words.unshift('0')
 
-            const mods = parseInt(modStr, modStr.startsWith('0x') ? 16 : 10)
-            const key = parseInt(keyStr, keyStr.startsWith('0x') ? 16 : 10)
+            const modStr = words[0]
+            const mods = parseInt(modStr, modStr.startsWith('0x') ? 16 : 10).toString()
 
-            addCodeLine(`${obj.sendKeyStroke(mods.toString(), [key.toString()])} // ${line}`)
+            const keys = []
+
+            words.slice(1).forEach(word => {
+                const keyStr = word
+                const key = parseInt(keyStr, keyStr.startsWith('0x') ? 16 : 10)
+                keys.push(key.toString())
+            })
+
+            addCodeLine(`${obj.sendKeyStroke(mods, keys)} // ${line}`)
         }
         // KEYCODE
         else if (line.startsWith('LOCALE') || line.startsWith('DUCKY_LANG ')) {
@@ -510,7 +517,7 @@ const convertToArduino = (obj) => {
                 }
             })
 
-            if (mods !== 0x00 || keys.length() > 0) {
+            if (mods !== 0x00 || keys.length > 0) {
                 addCodeLine(`${obj.sendKeyStroke(mods, keys)} // ${line}`)
             }
         }

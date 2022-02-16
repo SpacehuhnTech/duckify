@@ -6,9 +6,16 @@ const convertToArduino = (scriptInput, layoutName, layout, version) => {
     }
 
     const sendKeyStroke = (mods, keys) => {
-        keys = keys.concat([0,0,0,0,0,0]).splice(0,6)
+        const modStr = mods.toString()
+        const keyStr = keys.concat([0,0,0,0,0,0]).splice(0,6).map(key => key.toString()).join(', ')
 
-        return `keyboard::type(${keys.map(key => key.toString()).join(', ')}, ${mods.toString()});`
+        let res = `keyboard::type(${keyStr}, ${modStr});`
+
+        if(keys.length > 6) {
+            res += `\n#error Arduino only allows 6 keys + modifiers`
+        }
+
+        return res
     }
 
     const led = (r, g, b) => {
