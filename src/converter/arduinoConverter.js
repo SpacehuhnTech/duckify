@@ -244,6 +244,22 @@ const keyMap = {
     'ESCAPE': 0x29,      // ESC
     'BREAK': 0x48,       // PAUSE
     'PRINTSCREEN': 0x46, // PRINT
+    // Numpad
+    'NUM_ASTERIX': 0x55,
+    'NUM_MINUS': 0x56,
+    'NUM_PLUS': 0x57,
+    'NUM_ENTER': 0x58,
+    'NUM_1': 0x59,
+    'NUM_2': 0x5a,
+    'NUM_3': 0x5b,
+    'NUM_4': 0x5c,
+    'NUM_5': 0x5d,
+    'NUM_6': 0x5e,
+    'NUM_7': 0x5f,
+    'NUM_8': 0x60,
+    'NUM_9': 0x61,
+    'NUM_0': 0x62,
+    'NUM_DOT': 0x63,
 }
 
 const encodeString = (str, layout) => {
