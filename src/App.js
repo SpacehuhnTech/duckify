@@ -17,13 +17,25 @@ import Header from './components/Header.js'
 import Controls from './components/Controls.js'
 import TextArea from './components/TextArea.js'
 
-const loadLayout = () => {
+const loadSystem = () => {
+  let systemName = 'win'
+  const cookieValue = getCookie('systemName')
+
+  if (cookieValue !== '' && Object.keys(layoutList).some(e => e === cookieValue)) {
+    systemName = cookieValue
+  }
+
+  setCookie('systemName', systemName, 365)
+  return systemName
+}
+
+const loadLayout = (systemName) => {
   let layoutName = 'us'
   const cookieValue = getCookie('layoutName')
 
-  if (cookieValue !== '' && layoutList.some(e => e.name === cookieValue)) {
+  if (cookieValue !== '' && layoutList[systemName].some(e => e.name === cookieValue)) {
     layoutName = cookieValue
-  } else if (layoutList.some(e => e.name === navigator.language)) {
+  } else if (layoutList[systemName].some(e => e.name === navigator.language)) {
     layoutName = navigator.language
   }
 
@@ -60,7 +72,8 @@ const loadConverter = () => {
 }
 
 const App = () => {
-  const [layoutName, setLayoutName] = React.useState(loadLayout())
+  const [systemName, setSystemName] = React.useState(loadSystem)
+  const [layoutName, setLayoutName] = React.useState(loadLayout(systemName))
   const [scriptName, setScriptName] = React.useState(loadScriptName())
 
   const [converterName, setConverterName] = React.useState(loadConverter())
@@ -80,7 +93,7 @@ const App = () => {
   }
 
   const getLayout = () => {
-    return layoutList.find(e => e.name === layoutName).json.keys
+    return layoutList[systemName].find(e => e.name === layoutName).json.keys
   }
 
   const convertDigispark = () => {
@@ -183,6 +196,11 @@ const App = () => {
         { /* ===== Controls ===== */}
         <Grid item xs={12}>
           <Controls
+            systemName={systemName}
+            setSystemName={(name) => {
+              setSystemName(name)
+              setCookie('systemName', name, 365)
+            }}
             layoutName={layoutName}
             layoutList={layoutList}
             setLayoutName={changeLayout}

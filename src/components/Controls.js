@@ -6,24 +6,27 @@ import TextField from '@mui/material/TextField'
 
 import LayoutSelector from './LayoutSelector.js'
 import ConverterSelector from './ConverterSelector.js'
-//import SystemSelector from './SystemSelector.js'
+import SystemSelector from './SystemSelector.js'
 
 const Controls = (props) => {
     return (
         <Grid container spacing={1}>
             { /* System */}
-            { /*
-            <Grid item>
-                <SystemSelector
-                />
-            </Grid>
-             */}
+            {
+                <Grid item>
+                    <SystemSelector
+                        systemName={props.systemName}
+                        layoutList={props.layoutList}
+                        setSystemName={props.setSystemName}
+                    />
+                </Grid>
+            }
 
             { /* Keyboard Layout */}
             <Grid item>
                 <LayoutSelector
                     layoutName={props.layoutName}
-                    layoutList={props.layoutList}
+                    layoutList={props.layoutList[props.systemName]}
                     setLayoutName={props.setLayoutName}
                 />
             </Grid>

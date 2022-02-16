@@ -11,12 +11,12 @@ const SystemSelector = (props) => {
             size='small'>
             <InputLabel>System</InputLabel>
             <Select
-                value={'Win'}
+                value={props.systemName}
                 label="System"
-                onChange={() => { }}
+                onChange={(e) => props.setSystemName(e.target.value) }
             >
                 {
-                    ['Win'].map(variant =>
+                    Object.keys(props.layoutList).map(variant =>
                         <MenuItem key={variant} value={variant}>{variant}</MenuItem>
                     )
                 }
