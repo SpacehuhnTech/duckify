@@ -8,7 +8,7 @@ import win_cz from './win/cz.json'
 import win_de from './win/de.json'
 import win_dk from './win/dk.json'
 import win_ee from './win/ee.json'
-import win_esmx from './win/es-mx.json'
+import win_esla from './win/es-la.json'
 import win_es from './win/es.json'
 import win_fi from './win/fi.json'
 import win_fr from './win/fr.json'
@@ -35,8 +35,215 @@ import win_tr from './win/tr.json'
 import win_ua from './win/ua.json'
 import win_us from './win/us.json'
 
+import mac_be from './mac/be.json'
+import mac_bg from './mac/bg.json'
+import mac_cafr from './mac/ca-fr.json'
+import mac_chde from './mac/ch-de.json'
+import mac_chfr from './mac/ch-fr.json'
+import mac_cz from './mac/cz.json'
+import mac_dk from './mac/dk.json'
+import mac_ee from './mac/ee.json'
+import mac_es from './mac/es.json'
+import mac_esla from './mac/es-la.json'
+import mac_fi from './mac/fi.json'
+import mac_fr from './mac/fr.json'
+import mac_gb from './mac/gb.json'
+import mac_gr from './mac/gr.json'
+import mac_hu from './mac/hu.json'
+import mac_in from './mac/in.json'
+import mac_is from './mac/is.json'
+import mac_it from './mac/it.json'
+import mac_lt from './mac/lt.json'
+import mac_lv from './mac/lv.json'
+import mac_nl from './mac/nl.json'
+import mac_no from './mac/no.json'
+import mac_pl from './mac/pl.json'
+import mac_pt from './mac/pt.json'
+import mac_ptbr from './mac/pt-br.json'
+import mac_ro from './mac/ro.json'
+import mac_ru from './mac/ru.json'
+import mac_se from './mac/se.json'
+import mac_si from './mac/si.json'
+import mac_sk from './mac/sk.json'
+import mac_tr from './mac/tr.json'
+import mac_ua from './mac/ua.json'
+
+import mac_de from './mac/de.json'
+import mac_us from './mac/us.json'
+
 const layoutList = {
-    'mac': [],
+    'mac': [
+        {
+            name: 'be',
+            json: mac_be,
+            flag: '🇧🇪',
+        },
+        {
+            name: 'bg',
+            json: mac_bg,
+            flag: '🇧🇬',
+        },
+        {
+            name: 'ca-fr',
+            json: mac_cafr,
+            flag: '🇨🇦',
+        },
+        {
+            name: 'ch-de',
+            json: mac_chde,
+            flag: '🇨🇭',
+        },
+        {
+            name: 'ch-fr',
+            json: mac_chfr,
+            flag: '🇨🇭',
+        },
+        {
+            name: 'cz',
+            json: mac_cz,
+            flag: '🇨🇿',
+        },
+        {
+            name: 'de',
+            json: mac_de,
+            flag: '🇩🇪',
+        },
+        {
+            name: 'dk',
+            json: mac_dk,
+            flag: '🇩🇰',
+        },
+        {
+            name: 'ee',
+            json: mac_ee,
+            flag: '🇪🇪',
+        },
+        {
+            name: 'es',
+            json: mac_es,
+            flag: '🇪🇸',
+        },
+        {
+            name: 'es-la',
+            json: mac_esla,
+            flag: '🌎',
+        },
+        {
+            name: 'fi',
+            json: mac_fi,
+            flag: '🇫🇮',
+        },
+        {
+            name: 'fr',
+            json: mac_fr,
+            flag: '🇫🇷',
+        },
+        {
+            name: 'gb',
+            json: mac_gb,
+            flag: '🇬🇧',
+        },
+        {
+            name: 'gr',
+            json: mac_gr,
+            flag: '🇬🇷',
+        },
+        {
+            name: 'hu',
+            json: mac_hu,
+            flag: '🇭🇺',
+        },
+        {
+            name: 'in',
+            json: mac_in,
+            flag: '🇮🇳',
+        },
+        {
+            name: 'is',
+            json: mac_is,
+            flag: '🇮🇸',
+        },
+        {
+            name: 'it',
+            json: mac_it,
+            flag: '🇮🇹',
+        },
+        {
+            name: 'lt',
+            json: mac_lt,
+            flag: '🇱🇹',
+        },
+        {
+            name: 'lv',
+            json: mac_lv,
+            flag: '🇱🇻',
+        },
+        {
+            name: 'nl',
+            json: mac_nl,
+            flag: '🇳🇱',
+        },
+        {
+            name: 'no',
+            json: mac_no,
+            flag: '🇳🇴',
+        },
+        {
+            name: 'pl',
+            json: mac_pl,
+            flag: '🇵🇱',
+        },
+        {
+            name: 'pt',
+            json: mac_pt,
+            flag: '🇵🇹',
+        },
+        {
+            name: 'pt-br',
+            json: mac_ptbr,
+            flag: '🇧🇷',
+        },
+        {
+            name: 'ro',
+            json: mac_ro,
+            flag: '🇷🇴',
+        },
+        {
+            name: 'ru',
+            json: mac_ru,
+            flag: '🇷🇺',
+        },
+        {
+            name: 'se',
+            json: mac_se,
+            flag: '🇸🇪',
+        },
+        {
+            name: 'si',
+            json: mac_si,
+            flag: '🇸🇮',
+        },
+        {
+            name: 'sk',
+            json: mac_sk,
+            flag: '🇸🇰',
+        },
+        {
+            name: 'tr',
+            json: mac_tr,
+            flag: '🇹🇷',
+        },
+        {
+            name: 'ua',
+            json: mac_ua,
+            flag: '🇺🇦',
+        },
+        {
+            name: 'us',
+            json: mac_us,
+            flag: '🇺🇸',
+        },
+    ],
     'win': [
         {
             name: 'be',
@@ -89,9 +296,9 @@ const layoutList = {
             flag: '🇪🇪',
         },
         {
-            name: 'es-mx',
-            json: win_esmx,
-            flag: '🇲🇽',
+            name: 'es-la',
+            json: win_esla,
+            flag: '🌎',
         },
         {
             name: 'es',
