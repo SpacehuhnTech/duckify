@@ -88,7 +88,7 @@ const App = () => {
   const [message, setMessage] = React.useState('Copied to clipboard')
 
   const changeLayout = (newLayout) => {
-    setCookie('layout', newLayout)
+    setCookie('layoutName', newLayout)
     setLayoutName(newLayout)
   }
 
