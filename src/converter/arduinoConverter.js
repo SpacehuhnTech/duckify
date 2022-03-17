@@ -370,7 +370,7 @@ const convertToArduino = (obj) => {
             value: value,
         }
 
-        if (value.startsWith('#error') || value.startsWith('#warning')) {
+        if (value.startsWith('#error ') || value.startsWith('#warning ')) {
             obj.type = 'error'
         } else if (value.startsWith('//')) {
             obj.type = 'comment'
@@ -453,7 +453,7 @@ const convertToArduino = (obj) => {
             let prevLine = codeLines.at(-1)
 
             addCodeLine(`for(size_t i=0; i<${value}; ++i) {`)
-            addCodeLine(prevLine)
+            addCodeLine(prevLine.value)
             addCodeLine(`}`)
         }
         // DEFAULTDELAY
