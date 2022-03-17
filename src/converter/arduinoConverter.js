@@ -1,4 +1,16 @@
 const modMap = {
+    // Ducky Script
+    'CTRL': 0x01,    // LCTRL
+    'CONTROL': 0x01, // LCTRL
+    'SHIFT': 0x02,   // LSHIFT
+    'ALT': 0x04,     // LALT
+    'GUI': 0x08,     // LMETA
+    'WINDOWS': 0x08, // LMETA
+
+    // BadUSB Script
+    'ALTGR': 0x40, // RALT
+    
+    // Extras
     'LCTRL': 0x01,
     'LSHIFT': 0x02,
     'LALT': 0x04,
@@ -7,13 +19,6 @@ const modMap = {
     'RSHIFT': 0x20,
     'RALT': 0x40,
     'RMETA': 0x80,
-    // Ducky Script
-    'CTRL': 0x01,    // LCTRL
-    'CONTROL': 0x01, // LCTRL
-    'SHIFT': 0x02,   // LSHIFT
-    'ALT': 0x04,     // LALT
-    'GUI': 0x08,     // LMETA
-    'WINDOWS': 0x08, // LMETA
 }
 
 const charMap = {
@@ -43,6 +48,7 @@ const charMap = {
     'x': 0x1b,
     'y': 0x1c,
     'z': 0x1d,
+
     '1': 0x1e,
     '2': 0x1f,
     '3': 0x20,
@@ -53,6 +59,7 @@ const charMap = {
     '8': 0x25,
     '9': 0x26,
     '0': 0x27,
+
     ' ': 0x2c,
     '-': 0x2d,
     '=': 0x2e,
@@ -66,6 +73,8 @@ const charMap = {
     ',': 0x36,
     '.': 0x37,
     '/': 0x38,
+
+    // Extras
     '\n': 0x28, // ENTER
     'Space': 0x2c, // SPACE
     'Intl\\': 0x64, // Keyboard Non-US \ and |
@@ -74,8 +83,6 @@ const charMap = {
 }
 
 const keyMap = {
-    'NONE': 0x00,       // No key pressed
-    'ERR_OVF': 0x01,    //  Keyboard Error Roll Over - used for all slots if too many keys are pressed ("Phantom key")
     'A': 0x04,          // Keyboard a and A
     'B': 0x05,          // Keyboard b and B
     'C': 0x06,          // Keyboard c and C
@@ -102,24 +109,7 @@ const keyMap = {
     'X': 0x1b,          // Keyboard x and X
     'Y': 0x1c,          // Keyboard y and Y
     'Z': 0x1d,          // Keyboard z and Z
-    'ENTER': 0x28,      // Keyboard Return (ENTER)
-    'ESC': 0x29,        // Keyboard ESCAPE
-    'BACKSPACE': 0x2a,  // Keyboard DELETE (Backspace)
-    'TAB': 0x2b,        // Keyboard Tab
-    'SPACE': 0x2c,      // Keyboard Spacebar
-    'MINUS': 0x2d,      // Keyboard - and _
-    'EQUAL': 0x2e,      // Keyboard = and +
-    'LEFTBRACE': 0x2f,  // Keyboard [ and {
-    'RIGHTBRACE': 0x30, // Keyboard ] and }
-    'BACKSLASH': 0x31,  // Keyboard \ and |
-    'HASHTILDE': 0x32,  // Keyboard Non-US # and ~
-    'SEMICOLON': 0x33,  // Keyboard ; and :
-    'APOSTROPHE': 0x34, // Keyboard ' and "
-    'GRAVE': 0x35,      // Keyboard ` and ~
-    'COMMA': 0x36,      // Keyboard , and <
-    'DOT': 0x37,        // Keyboard . and >
-    'SLASH': 0x38,      // Keyboard / and ?
-    'CAPSLOCK': 0x39,   // Keyboard Caps Lock
+
     'F1': 0x3a,         // Keyboard F1
     'F2': 0x3b,         // Keyboard F2
     'F3': 0x3c,         // Keyboard F3
@@ -132,20 +122,72 @@ const keyMap = {
     'F10': 0x43,        // Keyboard F10
     'F11': 0x44,        // Keyboard F11
     'F12': 0x45,        // Keyboard F12
-    'SYSRQ': 0x46,      // Keyboard Print Screen
-    'SCROLLLOCK': 0x47, // Keyboard Scroll Lock
-    'PAUSE': 0x48,      // Keyboard Pause
-    'INSERT': 0x49,     // Keyboard Insert
-    'HOME': 0x4a,       // Keyboard Home
-    'PAGEUP': 0x4b,     // Keyboard Page Up
+
+    // Ducky Script
+    'ENTER': 0x28,      // Keyboard Return (ENTER)
+    'MENU': 0x76,        // PROPS
+    'APP': 0x76,         // PROPS
     'DELETE': 0x4c,     // Keyboard Delete Forward
-    'END': 0x4d,        // Keyboard End
+    'HOME': 0x4a,       // Keyboard Home
+    'INSERT': 0x49,     // Keyboard Insert
+    'PAGEUP': 0x4b,     // Keyboard Page Up
     'PAGEDOWN': 0x4e,   // Keyboard Page Down
-    'RIGHT': 0x4f,      // Keyboard Right Arrow
-    'LEFT': 0x50,       // Keyboard Left Arrow
-    'DOWN': 0x51,       // Keyboard Down Arrow
     'UP': 0x52,         // Keyboard Up Arrow
+    'UPARROW': 0x52,     // UP
+    'DOWN': 0x51,       // Keyboard Down Arrow
+    'DOWNARROW': 0x51,   // DOWN
+    'LEFT': 0x50,       // Keyboard Left Arrow
+    'LEFTARROW': 0x50,   // LEFT
+    'RIGHT': 0x4f,      // Keyboard Right Arrow
+    'RIGHTARROW': 0x4f,  // RIGHT
+    'TAB': 0x2b,        // Keyboard Tab
+    'END': 0x4d,        // Keyboard End
+    'ESC': 0x29,        // Keyboard ESCAPE
+    'ESCAPE': 0x29,      // ESC
+    'SPACE': 0x2c,      // Keyboard Spacebar
+    'PAUSE': 0x48,      // Keyboard Pause
+    'BREAK': 0x48,       // PAUSE
+    'CAPSLOCK': 0x39,   // Keyboard Caps Lock
     'NUMLOCK': 0x53,    // Keyboard Num Lock and Clear
+    'PRINTSCREEN': 0x46, // PRINT
+    'SCROLLLOCK': 0x47, // Keyboard Scroll Lock
+
+    // BadUSB Script
+    'BACKSPACE': 0x2a,  // Keyboard DELETE (Backspace)
+
+    // Numpad
+    'NUM_ASTERIX': 0x55,
+    'NUM_MINUS': 0x56,
+    'NUM_PLUS': 0x57,
+    'NUM_ENTER': 0x58,
+    'NUM_1': 0x59,
+    'NUM_2': 0x5a,
+    'NUM_3': 0x5b,
+    'NUM_4': 0x5c,
+    'NUM_5': 0x5d,
+    'NUM_6': 0x5e,
+    'NUM_7': 0x5f,
+    'NUM_8': 0x60,
+    'NUM_9': 0x61,
+    'NUM_0': 0x62,
+    'NUM_DOT': 0x63,
+
+    // Extras
+    'NONE': 0x00,       // No key pressed
+    'ERR_OVF': 0x01,    //  Keyboard Error Roll Over - used for all slots if too many keys are pressed ("Phantom key")
+    'MINUS': 0x2d,      // Keyboard - and _
+    'EQUAL': 0x2e,      // Keyboard = and +
+    'LEFTBRACE': 0x2f,  // Keyboard [ and {
+    'RIGHTBRACE': 0x30, // Keyboard ] and }
+    'BACKSLASH': 0x31,  // Keyboard \ and |
+    'HASHTILDE': 0x32,  // Keyboard Non-US # and ~
+    'SEMICOLON': 0x33,  // Keyboard ; and :
+    'APOSTROPHE': 0x34, // Keyboard ' and "
+    'GRAVE': 0x35,      // Keyboard ` and ~
+    'COMMA': 0x36,      // Keyboard , and <
+    'DOT': 0x37,        // Keyboard . and >
+    'SLASH': 0x38,      // Keyboard / and ?
+    'SYSRQ': 0x46,      // Keyboard Print Screen
     'KPSLASH': 0x54,    // Keypad /
     'KPASTERISK': 0x55, // Keypad *
     'KPMINUS': 0x56,    // Keypad -
@@ -234,32 +276,6 @@ const keyMap = {
     'MEDIA_COFFEE': 0xf9,
     'MEDIA_REFRESH': 0xfa,
     'MEDIA_CALC': 0xfb,
-    // Ducky Script
-    'MENU': 0x76,        // PROPS
-    'APP': 0x76,         // PROPS
-    'UPARROW': 0x52,     // UP
-    'DOWNARROW': 0x51,   // DOWN
-    'LEFTARROW': 0x50,   // LEFT
-    'RIGHTARROW': 0x4f,  // RIGHT
-    'ESCAPE': 0x29,      // ESC
-    'BREAK': 0x48,       // PAUSE
-    'PRINTSCREEN': 0x46, // PRINT
-    // Numpad
-    'NUM_ASTERIX': 0x55,
-    'NUM_MINUS': 0x56,
-    'NUM_PLUS': 0x57,
-    'NUM_ENTER': 0x58,
-    'NUM_1': 0x59,
-    'NUM_2': 0x5a,
-    'NUM_3': 0x5b,
-    'NUM_4': 0x5c,
-    'NUM_5': 0x5d,
-    'NUM_6': 0x5e,
-    'NUM_7': 0x5f,
-    'NUM_8': 0x60,
-    'NUM_9': 0x61,
-    'NUM_0': 0x62,
-    'NUM_DOT': 0x63,
 }
 
 const encodeString = (str, layout) => {
@@ -372,26 +388,26 @@ const convertToArduino = (obj) => {
         // Ignore empty lines
         if (line === '' && !largeString) return true
 
-        // LARGESTRING
-        if (line.startsWith('LARGESTRING')) {
-            const value = line.substring(12)
-            const mode = value.split(' ')
+        // LSTRING
+        if (line.startsWith('LSTRING_')) {
+            const mode = line.substring(8)
 
             if (mode.length === 0) {
                 addCodeLine(`#error Couldn't parse '${line}'`)
             }
 
-            largeString = (mode[0] === 'START')
+            largeString = (mode === 'START')
 
+            // On LSTRING_END
             if (!largeString && largeStringValue.length > 0) {
                 const i = keyArrays.length
                 const value = largeStringValue
                 const comment = commentEscape(value)
                 const shortComment = commentCut(value)
 
-                addCodeLine(`// LARGESTRING START`)
+                addCodeLine(`// LSTRING_START`)
                 addCodeLine(`duckyString(key_arr_${i}, sizeof(key_arr_${i})); // ${shortComment}`)
-                addCodeLine(`// LARGESTRING END`)
+                addCodeLine(`// LSTRING_END`)
 
                 keyArrays.push({
                     comment: comment,
@@ -405,7 +421,7 @@ const convertToArduino = (obj) => {
             largeStringValue += line
         }
         // STRING
-        else if (line.startsWith('STRING')) {
+        else if (line.startsWith('STRING ')) {
             const i = keyArrays.length
             const value = line.substring(7)
             const comment = commentEscape(value)
@@ -419,16 +435,20 @@ const convertToArduino = (obj) => {
             })
         }
         // REM
-        else if (line.startsWith('REM')) {
+        else if (line.startsWith('REM ')) {
             addCodeLine(`// ${line.substring(4)}`)
         }
+        // #
+        else if (line.startsWith('# ')) {
+            addCodeLine(`// ${line.substring(2)}`)
+        }
         // DELAY
-        else if (line.startsWith('DELAY')) {
+        else if (line.startsWith('DELAY ')) {
             const value = parseInt(line.substring(6))
             addCodeLine(`${obj.delay(value)} // DELAY ${value}`)
         }
         // REPEAT
-        else if (line.startsWith('REPEAT') || line.startsWith('REPLAY')) {
+        else if (line.startsWith('REPEAT ') || line.startsWith('REPLAY ')) {
             const value = parseInt(line.substring(7))
             let prevLine = codeLines.at(-1)
 
@@ -437,37 +457,37 @@ const convertToArduino = (obj) => {
             addCodeLine(`}`)
         }
         // DEFAULTDELAY
-        else if (line.startsWith('DEFAULTDELAY') || line.startsWith('DEFAULT_DELAY')) {
+        else if (line.startsWith('DEFAULTDELAY ') || line.startsWith('DEFAULT_DELAY ')) {
             const value = line.replace('DEFAULTDELAY ', '').replace('DEFAULT_DELAY ', '')
 
             defaultDelay = parseInt(value)// * 10
         }
         // KEYCODE
-        else if (line.startsWith('KEYCODE')) {
+        else if (line.startsWith('KEYCODE ')) {
             const value = line.substring(8)
-            const words = value.split(' ')
+            const words = value.split(',')
 
             if(words.length === 1) words.unshift('0')
 
             const modStr = words[0]
-            const mods = parseInt(modStr, modStr.startsWith('0x') ? 16 : 10).toString()
+            const mods = parseInt(modStr, /*modStr.startsWith('0x') ?*/ 16/* : 10*/).toString()
 
             const keys = []
 
             words.slice(1).forEach(word => {
                 const keyStr = word
-                const key = parseInt(keyStr, keyStr.startsWith('0x') ? 16 : 10)
-                keys.push(key.toString())
+                const key = parseInt(keyStr, /*keyStr.startsWith('0x') ?*/ 16 /*: 10*/)
+                if(key > 0) keys.push(key.toString())
             })
 
             addCodeLine(`${obj.sendKeyStroke(mods, keys)} // ${line}`)
         }
-        // KEYCODE
-        else if (line.startsWith('LOCALE') || line.startsWith('DUCKY_LANG ')) {
+        // LOCALE
+        else if (line.startsWith('LOCALE ') || line.startsWith('DUCKY_LANG ')) {
             addCodeLine(`#warning LOCALE/DUCKY_LANG ignored ('${line}')`)
         }
         // LOOP
-        else if (line.startsWith('LOOP')) {
+        else if (line.startsWith('LOOP_')) {
             const value = line.substring(5)
             const words = value.split(' ')
 
@@ -491,13 +511,15 @@ const convertToArduino = (obj) => {
         // LED
         else if (line.startsWith('LED')) {
             const value = line.substring(4)
+            addCodeLine(`${obj.led(value === 'ON')} // LED ${value}`)
+            /*
             const words = value.split(' ')
 
             if (words[0] !== '0' && words[0] !== 'OFF') {
                 addCodeLine(`${obj.led(words[0],words[1],words[2])} // LED ${value}`)
-            } else/* if (words[0] === 'OFF')*/ {
+            } else/* if (words[0] === 'OFF')// {
                 addCodeLine(`${obj.led(0,0,0)} // LED ${value}`)
-            }
+            }*/
         }
         // Key combinations
         else {

@@ -14,9 +14,12 @@ const convertToDigispark = (scriptInput, layoutName, layout, version) => {
 
         return res
     }
-
+    /*
     const led = (r,g,b) => {
         const on = (r>0 || g>0 || b>0)
+        return `digitalWrite(1, ${on ? 'HIGH' : 'LOW'});`
+    }*/
+    const led = (on) => {
         return `digitalWrite(1, ${on ? 'HIGH' : 'LOW'});`
     }
 
