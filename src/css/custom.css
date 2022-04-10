@@ -1,0 +1,48 @@
+:root {
+  --ifm-color-primary: #2f4858;
+
+  --ifm-color-primary-dark: #2f4858;
+  --ifm-color-primary-darker: #243742;
+  --ifm-color-primary-darkest: #19262e;
+
+  --ifm-color-primary-light: #2f4858;
+  --ifm-color-primary-lighter: #39576a;
+  --ifm-color-primary-lightest: #44687e;
+
+  --ifm-code-font-size: 95%;
+
+  --ifm-navbar-background-color: #ffa733;
+  --ifm-navbar-link-color: #fff;
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: #c3fcf1;
+
+  --ifm-color-primary-dark: #676a8b;
+  --ifm-color-primary-darker: #485a73;
+  --ifm-color-primary-darkest: #2f4858;
+
+  --ifm-color-primary-light: #8c7a9f;
+  --ifm-color-primary-lighter: #b38aae;
+  --ifm-color-primary-lightest: #da9bb7;
+}
+
+.docusaurus-highlight-code-line {
+  background-color: rgba(0, 0, 0, 0.1);
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+}
+
+[data-theme='dark'] .docusaurus-highlight-code-line {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.navbar__items .clean-btn {
+  color: #fff;
+}
+
+.navbar__items .clean-btn:hover {
+  background: rgb(68, 73, 80);
+}

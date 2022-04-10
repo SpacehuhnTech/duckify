@@ -1,21 +1,21 @@
 import React from 'react'
 
-import Box from '@mui/material/Box'
+import { useColorMode } from '@docusaurus/theme-common'
+
 import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
 import Snackbar from '@mui/material/Snackbar'
 import Link from '@mui/material/Link'
 import Alert from '@mui/material/Alert'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
 
-import version from './version.js'
-import downloadFile from './modules/downloadHelper.js'
-import layoutList from './library/layoutList.js'
-import { setCookie, getCookie } from './modules/cookie.js'
-import converterList from './converter/converterList.js'
+import version from '../version.js'
+import downloadFile from '../modules/downloadHelper.js'
+import layoutList from '../library/layoutList.js'
+import { setCookie, getCookie } from '../modules/cookie.js'
+import converterList from '../converter/converterList.js'
 
-import Header from './components/Header.js'
-import Controls from './components/Controls.js'
-import TextArea from './components/TextArea.js'
+import Controls from './Controls.js'
+import TextArea from './TextArea.js'
 
 const loadSystem = () => {
   let systemName = 'win'
@@ -71,7 +71,21 @@ const loadConverter = () => {
   return converterName
 }
 
-const App = () => {
+const lightTheme = createTheme({
+  palette: {
+    mode: 'light',
+  },
+});
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
+
+const Duckify = () => {
+  const { colorMode, setColorMode } = useColorMode()
+
   const [systemName, setSystemName] = React.useState(loadSystem)
   const [layoutName, setLayoutName] = React.useState(loadLayout(systemName))
   const [scriptName, setScriptName] = React.useState(loadScriptName())
@@ -146,12 +160,9 @@ const App = () => {
   }
 
   return (
-    <Box>
-      { /* ===== Header / Navbar ===== */}
-      <Header />
-
+    <ThemeProvider theme={colorMode === 'light' ? lightTheme : darkTheme}>
       { /* ===== Body (Split View) ===== */}
-      <Grid container spacing={1} sx={{ p: 2 }}>
+      <Grid container spacing={1} sx={{ px: 2 }}>
 
         { /* ===== Notification ===== */}
         <Grid item xs={12}>
@@ -218,25 +229,7 @@ const App = () => {
             }}
           />
         </Grid>
-
-        { /* Made in Germany :D */}
-        <Box sx={{ mx: 'auto', mt: 5 }}>
-          <Typography
-            align='center'
-            display='block'>
-            Made with ❤️ by <Link href='https://spacehuhn.com' target='_blank' underline='hover' color='inherit'>Spacehuhn</Link>
-          </Typography>
-        </Box>
       </Grid>
-
-      { /* Version */}
-      <Typography
-        variant='caption'
-        align='center'
-        display='block'
-        sx={{ color: '#ddd' }}>
-        {version.name}
-      </Typography>
 
       <Snackbar
         open={open}
@@ -244,8 +237,8 @@ const App = () => {
         onClose={() => setOpen(false)}
         message={message}
       />
-    </Box>
+    </ThemeProvider>
   )
 }
 
-export default App
+export default Duckify
