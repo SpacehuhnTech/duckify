@@ -1,25 +1,32 @@
-function setCookie(cname, cvalue) {
-    const days = 365
-    const d = new Date()
-    d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000))
-    const expires = d.toUTCString()
-    document.cookie = `${cname}=${cvalue};expires=${expires};path=/;SameSite=Strict;`
-}
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment'
 
-function getCookie(cname) {
-    let name = `${cname}=`
-    let decodedCookie = decodeURIComponent(document.cookie)
-    let ca = decodedCookie.split(';')
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i]
-        while (c.charAt(0) === ' ') {
-            c = c.substring(1)
-        }
-        if (c.indexOf(name) === 0) {
-            return c.substring(name.length, c.length);
-        }
+let setCookie = () => console.log('ignoring cookie functions for server side')
+let getCookie = () => 'nope'
+
+if (ExecutionEnvironment.canUseDOM) {
+    setCookie = (cname, cvalue) => {
+        const days = 365
+        const d = new Date()
+        d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000))
+        const expires = d.toUTCString()
+        document.cookie = `${cname}=${cvalue};expires=${expires};path=/;SameSite=Strict;`
     }
-    return ''
+
+    getCookie = (cname) => {
+        let name = `${cname}=`
+        let decodedCookie = decodeURIComponent(document.cookie)
+        let ca = decodedCookie.split(';')
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i]
+            while (c.charAt(0) === ' ') {
+                c = c.substring(1)
+            }
+            if (c.indexOf(name) === 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return ''
+    }
 }
 
 export { setCookie, getCookie }

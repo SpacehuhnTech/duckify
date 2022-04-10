@@ -43,11 +43,11 @@ const Controls = (props) => {
             { /* Script Name */}
             <Grid item>
                 <TextField
-                    label='Script Name'
                     variant='outlined'
                     size='small'
                     onChange={(e) => props.setScriptName(e.target.value)}
                     value={props.scriptName}
+                    label='Script Name'
                 />
             </Grid>
 

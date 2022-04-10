@@ -8,14 +8,15 @@ import Link from '@mui/material/Link'
 import Alert from '@mui/material/Alert'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
-import version from '../version.js'
-import downloadFile from '../modules/downloadHelper.js'
-import layoutList from '../library/layoutList.js'
-import { setCookie, getCookie } from '../modules/cookie.js'
-import converterList from '../converter/converterList.js'
+import version from '../version'
+import downloadFile from '../modules/downloadHelper'
+import layoutList from '../library/layoutList'
+import { setCookie, getCookie } from '../modules/cookie'
+import converterList from '../converter/converterList'
+import getLanguage from '../modules/location'
 
-import Controls from './Controls.js'
-import TextArea from './TextArea.js'
+import Controls from './Controls'
+import TextArea from './TextArea'
 
 const loadSystem = () => {
   let systemName = 'win'
@@ -35,8 +36,8 @@ const loadLayout = (systemName) => {
 
   if (cookieValue !== '' && layoutList[systemName].some(e => e.name === cookieValue)) {
     layoutName = cookieValue
-  } else if (layoutList[systemName].some(e => e.name === navigator.language)) {
-    layoutName = navigator.language
+  } else if (layoutList[systemName].some(e => e.name === getLanguage())) {
+    layoutName = getLanguage()
   }
 
   setCookie('layoutName', layoutName, 365)
@@ -47,7 +48,7 @@ const loadScriptName = () => {
   const date = new Date()
   const dateStr = date.toISOString().substring(0, 10)
 
-  let scriptName = `DuckifyScript-${dateStr}`
+  let scriptName = `Duckify-${dateStr}`
 
   const cookieValue = getCookie('scriptName')
 
@@ -162,7 +163,7 @@ const Duckify = () => {
   return (
     <ThemeProvider theme={colorMode === 'light' ? lightTheme : darkTheme}>
       { /* ===== Body (Split View) ===== */}
-      <Grid container spacing={1} sx={{ px: 2 }}>
+      <Grid container spacing={1} sx={{ px: 2, py: 1 }}>
 
         { /* ===== Notification ===== */}
         <Grid item xs={12}>
