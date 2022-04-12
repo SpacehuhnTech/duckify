@@ -1,16 +1,18 @@
+---
+id: digispark
+title: Digispark Tutorial
+---
+
 # Digispark
 
-## About
-
-![Digispark](/img/Digispark.jpg ':size=200')
+<img src="/img/Digispark.jpg" width="200" alt="Digispark" />
 
 The Digispark is a very simplistic development board.
 It's based on the ATTiny85, is Arduino compatible, has a USB-A plug built-in (so no dangling cables!), and it's very affordable!
 
 The Digispark comes with a keyboard library that allows us to utilize it as a BadUSB.
 
-🛍️ Amazon.com affiliate Link: https://amzn.to/3KjGhWq  
-🛍️ Amazon.de affiliate Link: https://amzn.to/3tuJ6xh
+🛍️ Amazon affiliate Link: https://amzn.to/3v69bU0  
 
 ## Drivers
 

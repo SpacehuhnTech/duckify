@@ -1,3 +1,8 @@
+---
+id: scripting
+title: Scripting
+---
+
 # Scripting
 
 ## About

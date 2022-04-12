@@ -24,9 +24,9 @@ const Footer = () => {
         align='center'
         display='block'
       >
-        <a target='_blank' href='https://github.com/spacehuhntech/duckify' style={{ color: '#ccc' }}>
+        <Link href='https://github.com/spacehuhntech/duckify' target='_blank' underline='hover' style={{ color: '#ccc' }}>
           {version.name}
-        </a>
+        </Link>
       </Typography>
     </Box>
   )

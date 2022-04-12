@@ -45,7 +45,7 @@ const config = {
         items: [
           {
             type: 'doc',
-            docId: 'digispark',
+            docId: 'about',
             position: 'left',
             label: 'Docs',
           },
@@ -64,7 +64,7 @@ const config = {
             items: [
               {
                 label: 'Tutorial',
-                to: '/docs/digispark',
+                to: '/docs/about',
               },
             ],
           },
