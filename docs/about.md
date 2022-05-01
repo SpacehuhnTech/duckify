@@ -10,7 +10,7 @@ Duckify is a free and open-source converter for turning BadUSB scripts into Ardu
 It supports a variety of keyboard layouts, including those for macOS, and is compatible with Ducky Script. 🚀
 
 <a href='https://ko-fi.com/G2G75FA4V' target='_blank'>
-    <img height='36' style={{border:0,height:'36px'}} src='https://cdn.ko-fi.com/cdn/kofi3.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' />
+    <img height='36' style={{border:0,height:'36px'}} src='/img/kofi_button.png' border='0' alt='Buy Me a Coffee at ko-fi.com' />
 </a>
 &nbsp;
 <a href='https://discord.com/invite/238wu8g'>
