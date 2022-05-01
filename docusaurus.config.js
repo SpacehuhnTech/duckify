@@ -12,7 +12,7 @@ const config = {
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/logo512.png',
+  favicon: 'logo512.png',
   organizationName: 'spacehuhntech', // Usually your GitHub org/user name.
   projectName: 'duckify', // Usually your repo name.
 
