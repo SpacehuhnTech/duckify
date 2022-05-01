@@ -3,9 +3,12 @@ id: basics
 title: Basics
 ---
 
-The Duckify scripting language is made to be compatible with Ducky Script. However, some functions and keys were added or modified.
-You can find a great Ducky Script Quick Reference [here](https://docs.hak5.org/usb-rubber-ducky-1/the-ducky-script-language/ducky-script-quick-reference).
+:::info
+Duckify's script language is compatible with Ducky Script. However, some functions and keys were added or modified.
+You can find a great Ducky Script quick reference [at docs.hak5.org](https://docs.hak5.org/usb-rubber-ducky-1/the-ducky-script-language/ducky-script-quick-reference).
+:::
 
+## Basic rules:
 * A single space separates keys
 * All keys as part of the same line gets pressed and released simultaneously
 * To write text, use the `STRING` function
@@ -16,7 +19,7 @@ You can find a great Ducky Script Quick Reference [here](https://docs.hak5.org/u
 | `WINDOWS R` | Press the Windows key and the R key simultaneously |
 | `STRING Hello World` | Write "Hello World" |
 
-**Example Script:**
+## Example Script:
 
 ```
 # Hello World Example Script
