@@ -24,7 +24,8 @@ const config = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl: 'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          editUrl: 'https://github.com/spacehuhntech/duckify/',
+          sidebarCollapsible: false,
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -50,7 +51,7 @@ const config = {
             label: 'Docs',
           },
           /*{
-            href: 'https://github.com/facebook/docusaurus',
+            href: 'https://github.com/spacehuhntech/duckify',
             label: 'Docs',
             position: 'right',
           },*/
@@ -90,12 +91,12 @@ const config = {
             items: [
               {
                 label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                href: 'https://github.com/spacehuhntech/duckify',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Spacehuhn Technologies. Built with Docusaurus.`,
       },*/
       prism: {
         theme: lightCodeTheme,
