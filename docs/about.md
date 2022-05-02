@@ -60,7 +60,7 @@ It supports a variety of keyboard layouts, including those for macOS, and is com
     <img src='/img/Duckify_4_Arduino.jpg' alt='Duckify Usage Flashing in Arduino'/>
     <p>
     Open the downloaded sketch and open it in Arduino IDE. Make sure you selected your board and hit upload.
-    For a more detailed tutorial, see <a href='/docs/digispark/basics'>Digispark Basics</a>.
+    For a more detailed tutorial, see <a href='/docs/digispark/getting-started'>Digispark Basics</a>.
     </p>
   </div>
 </details>
