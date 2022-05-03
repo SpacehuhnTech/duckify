@@ -16,6 +16,8 @@ const config = {
   organizationName: 'spacehuhntech', // Usually your GitHub org/user name.
   projectName: 'duckify', // Usually your repo name.
 
+  scripts: [{src: 'https://plausible.io/js/script.js', defer: true, 'data-domain': 'duckify.huhn.me'}],
+
   presets: [
     [
       'classic',
