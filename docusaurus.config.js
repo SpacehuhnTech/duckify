@@ -52,11 +52,11 @@ const config = {
             position: 'left',
             label: 'Docs',
           },
-          /*{
-            href: 'https://github.com/spacehuhntech/duckify',
-            label: 'Docs',
+          {
+            href: 'https://huhn.me',
+            label: 'More Tools',
             position: 'right',
-          },*/
+          },
         ],
       },
       /*footer: {
