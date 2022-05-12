@@ -85,7 +85,12 @@ const darkTheme = createTheme({
 });
 
 const Duckify = () => {
-  const { colorMode, setColorMode } = useColorMode()
+  const colorMode = useColorMode()
+  const [theme, setTheme] = React.useState(lightTheme)
+
+  React.useEffect(() => {
+    setTheme(colorMode.colorMode === 'light' ? lightTheme : darkTheme)
+  },[colorMode])
 
   const [systemName, setSystemName] = React.useState(loadSystem)
   const [layoutName, setLayoutName] = React.useState(loadLayout(systemName))
@@ -161,7 +166,7 @@ const Duckify = () => {
   }
 
   return (
-    <ThemeProvider theme={colorMode === 'light' ? lightTheme : darkTheme}>
+    <ThemeProvider theme={theme}>
       { /* ===== Body (Split View) ===== */}
       <Grid container spacing={1} sx={{ px: 2, py: 1 }}>
 
