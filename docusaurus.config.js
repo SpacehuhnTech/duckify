@@ -105,10 +105,11 @@ const config = {
         darkTheme: darkCodeTheme,
       },
       metadata: [
-        { name: 'description', content: 'A free and Open-Source web-app for converting BadUSB Script into Arduino code.' },
+        { name: 'description', content: 'Convert Bad USB Script into Arduino code using this free and Open-Source web-app.' },
         { name: 'keywords', content: 'DuckyScript, Ducky, Script, BadUSB, Digispark, converter, Arduino, Spacehuhn' },
         { name: 'author', content: 'Spacehuhn' },
       ],
+      image: '/img/thumbnail.jpg',
     }),
 };
 
