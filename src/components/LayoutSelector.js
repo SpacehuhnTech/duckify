@@ -5,6 +5,8 @@ import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 
+import Flag from './Flag'
+
 const LayoutSelector = (props) => {
     return (
         <FormControl
@@ -19,8 +21,15 @@ const LayoutSelector = (props) => {
                 {
                     props.layoutList.sort((a, b) => {
                         return a.name.localeCompare(b.name)
-                    }).map(layout =>
-                        <MenuItem key={layout.name} value={layout.name}>{layout.flag} {layout.name.toUpperCase()}</MenuItem>
+                    }).map(layout => {
+                        const name = layout.name
+
+                        return (
+                            <MenuItem key={name} value={name}>
+                                <Flag country={name} />&nbsp;{name.toUpperCase()}
+                            </MenuItem>
+                        )
+                    }
                     )
                 }
             </Select>
