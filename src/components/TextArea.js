@@ -34,7 +34,7 @@ const TextArea = (props) => {
                 direction='row'
                 justifyContent='flex-end'
                 alignItems='flex-start'
-                sx={{ mt: -5 }}>
+                sx={{ mt: -6, mb: 1, pr: .5 }}>
                 <Grid item>
                     <IconButton
                         onClick={props.onCopy}
