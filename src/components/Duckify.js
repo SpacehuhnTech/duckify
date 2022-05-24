@@ -4,8 +4,6 @@ import { useColorMode } from '@docusaurus/theme-common'
 
 import Grid from '@mui/material/Grid'
 import Snackbar from '@mui/material/Snackbar'
-import Link from '@mui/material/Link'
-import Alert from '@mui/material/Alert'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 import version from '../version'
@@ -14,6 +12,9 @@ import layoutList from '../library/layoutList'
 import { setCookie, getCookie } from '../modules/cookie'
 import converterList from '../converter/converterList'
 import getLanguage from '../modules/location'
+
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import Controls from './Controls'
 import TextArea from './TextArea'
@@ -90,7 +91,7 @@ const Duckify = () => {
 
   React.useEffect(() => {
     setTheme(colorMode.colorMode === 'light' ? lightTheme : darkTheme)
-  },[colorMode])
+  }, [colorMode])
 
   const [systemName, setSystemName] = React.useState(loadSystem)
   const [layoutName, setLayoutName] = React.useState(loadLayout(systemName))
@@ -100,8 +101,6 @@ const Duckify = () => {
 
   const [input, setInput] = React.useState('')
   const [output, setOutput] = React.useState('')
-
-  const [notification, setNotification] = React.useState({ mode: 'none', message: '' })
 
   // Snackbar notification
   const [open, setOpen] = React.useState(false)
@@ -123,9 +122,29 @@ const Duckify = () => {
     setOutput(output)
 
     if (output.includes('#error')) {
-      setNotification({ mode: 'error', message: 'Output contains errors (look for #error)' })
+      toast.error('Output contains errors (look for #error)', {
+        position: "top-center",
+        autoClose: 10000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        toastId: 'convert_error',
+        theme: (theme === lightTheme) ? 'light' : 'dark',
+      })
     } else {
-      setNotification({ mode: 'success', message: 'Script converted successfully! 🎉' })
+      toast.success('Script converted successfully! 🎉', {
+        position: "top-center",
+        autoClose: 6000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        toastId: 'convert_success',
+        theme: (theme === lightTheme) ? 'light' : 'dark',
+      })
     }
   }
 
@@ -169,24 +188,6 @@ const Duckify = () => {
     <ThemeProvider theme={theme}>
       { /* ===== Body (Split View) ===== */}
       <Grid container spacing={1} sx={{ px: 2, py: 1 }}>
-
-        { /* ===== Notification ===== */}
-        <Grid item xs={12}>
-          {notification.mode !== 'none' &&
-            <Alert
-              severity={notification.mode}
-              onClose={() => setNotification({ mode: 'none', message: '' })}
-            >
-              {notification.message}
-              {notification.mode === 'success' &&
-                <span>
-                  &nbsp;Support this project via&nbsp;
-                  <Link href='https://ko-fi.com/spacehuhn' target='_blank' underline='hover' color='inherit'>ko-fi.com/spacehuhn</Link>
-                </span>
-              }
-            </Alert>
-          }
-        </Grid>
 
         { /* ===== Input ===== */}
         <Grid item xs={12} sm={6}>
@@ -242,6 +243,10 @@ const Duckify = () => {
         autoHideDuration={6000}
         onClose={() => setOpen(false)}
         message={message}
+      />
+
+      <ToastContainer
+        limit={3}
       />
     </ThemeProvider>
   )
