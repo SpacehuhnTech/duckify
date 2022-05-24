@@ -26,7 +26,7 @@ const config = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl: 'https://github.com/spacehuhntech/duckify/',
+          editUrl: 'https://github.com/spacehuhntech/duckify/blob/main/',
           sidebarCollapsible: false,
         },
         theme: {
@@ -51,6 +51,11 @@ const config = {
             docId: 'about',
             position: 'left',
             label: 'Docs',
+          },
+          {
+            href: 'https://learnbadusb.com',
+            label: 'Online Course',
+            position: 'right',
           },
           {
             href: 'https://huhn.me',
