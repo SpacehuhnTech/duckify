@@ -523,6 +523,8 @@ const convertToArduino = (obj) => {
         }
         // Key combinations
         else {
+            line = line.trim() // remove leading or tailing spaces
+            line = line.replace(/\s+/g, ' ') // remove double spaces
             const words = line.split(' ')
             let mods = 0x00
             let keys = []
