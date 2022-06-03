@@ -5,8 +5,6 @@ import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 
-import Flag from './Flag'
-
 const LayoutSelector = (props) => {
     return (
         <FormControl
@@ -23,10 +21,20 @@ const LayoutSelector = (props) => {
                         return a.name.localeCompare(b.name)
                     }).map(layout => {
                         const name = layout.name
+                        const country = layout.country
 
                         return (
                             <MenuItem key={name} value={name}>
-                                <Flag country={name} />&nbsp;{name.toUpperCase()}
+                                <img
+                                    src={`/flags/${country}.svg`}
+                                    alt={country}
+                                    key={country}
+                                    style={{
+                                        width: '1em',
+                                        paddingBottom: '1px',
+                                    }}
+                                />
+                                &nbsp;{name.toUpperCase()}
                             </MenuItem>
                         )
                     }

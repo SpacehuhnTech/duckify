@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useColorMode } from '@docusaurus/theme-common'
 
@@ -87,24 +87,35 @@ const darkTheme = createTheme({
 
 const Duckify = () => {
   const colorMode = useColorMode()
-  const [theme, setTheme] = React.useState(lightTheme)
+  const [theme, setTheme] = useState(lightTheme)
 
-  React.useEffect(() => {
+  useEffect(() => {
     setTheme(colorMode.colorMode === 'light' ? lightTheme : darkTheme)
   }, [colorMode])
 
-  const [systemName, setSystemName] = React.useState(loadSystem)
-  const [layoutName, setLayoutName] = React.useState(loadLayout(systemName))
-  const [scriptName, setScriptName] = React.useState(loadScriptName())
+  const [systemName, setSystemName] = useState('win')
+  const [layoutName, setLayoutName] = useState('us')
+  const [scriptName, setScriptName] = useState('')
 
-  const [converterName, setConverterName] = React.useState(loadConverter())
+  // Load saved settings
+  useEffect(() => {
+    const system = loadSystem()
+    const layout = loadLayout(system)
+    const script = loadScriptName()
 
-  const [input, setInput] = React.useState('')
-  const [output, setOutput] = React.useState('')
+    setSystemName(system)
+    setLayoutName(layout)
+    setScriptName(script)
+  }, [])
+
+  const [converterName, setConverterName] = useState(loadConverter())
+
+  const [input, setInput] = useState('')
+  const [output, setOutput] = useState('')
 
   // Snackbar notification
-  const [open, setOpen] = React.useState(false)
-  const [message, setMessage] = React.useState('Copied to clipboard')
+  const [open, setOpen] = useState(false)
+  const [message, setMessage] = useState('Copied to clipboard')
 
   const changeLayout = (newLayout) => {
     setCookie('layoutName', newLayout)
