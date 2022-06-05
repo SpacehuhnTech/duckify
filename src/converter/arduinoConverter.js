@@ -9,7 +9,7 @@ const modMap = {
 
     // BadUSB Script
     'ALTGR': 0x40, // RALT
-    
+
     // Extras
     'LCTRL': 0x01,
     'LSHIFT': 0x02,
@@ -467,7 +467,7 @@ const convertToArduino = (obj) => {
             const value = line.substring(8)
             const words = value.split(',')
 
-            if(words.length === 1) words.unshift('0')
+            if (words.length === 1) words.unshift('0')
 
             const modStr = words[0]
             const mods = parseInt(modStr, /*modStr.startsWith('0x') ?*/ 16/* : 10*/).toString()
@@ -477,7 +477,7 @@ const convertToArduino = (obj) => {
             words.slice(1).forEach(word => {
                 const keyStr = word
                 const key = parseInt(keyStr, /*keyStr.startsWith('0x') ?*/ 16 /*: 10*/)
-                if(key > 0) keys.push(key.toString())
+                if (key > 0) keys.push(key.toString())
             })
 
             addCodeLine(`${obj.sendKeyStroke(mods, keys)} // ${line}`)
@@ -528,16 +528,18 @@ const convertToArduino = (obj) => {
             const words = line.split(' ')
             let mods = 0x00
             let keys = []
-            
+
             words.forEach(word => {
-                if (word in modMap) {
-                    mods |= modMap[word]
-                } else if (word in keyMap) {
-                    keys.push(keyMap[word])
-                } else if (word in charMap) {
-                    keys.push(charMap[word])
-                } else {
-                    addCodeLine(`#error Could not parse '${word}'`)
+                if (word != '') {
+                    if (word in modMap) {
+                        mods |= modMap[word]
+                    } else if (word in keyMap) {
+                        keys.push(keyMap[word])
+                    } else if (word in charMap) {
+                        keys.push(charMap[word])
+                    } else {
+                        addCodeLine(`#error Could not parse '${word}'`)
+                    }
                 }
             })
 
