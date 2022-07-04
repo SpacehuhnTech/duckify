@@ -396,7 +396,7 @@ const convertToArduino = (obj) => {
                 addCodeLine(`#error Couldn't parse '${line}'`)
             }
 
-            largeString = (mode === 'START')
+            largeString = (mode === 'BEGIN' || mode === 'START')
 
             // On LSTRING_END
             if (!largeString && largeStringValue.length > 0) {
@@ -405,7 +405,7 @@ const convertToArduino = (obj) => {
                 const comment = commentEscape(value)
                 const shortComment = commentCut(value)
 
-                addCodeLine(`// LSTRING_START`)
+                addCodeLine(`// LSTRING_BEGIN`)
                 addCodeLine(`duckyString(key_arr_${i}, sizeof(key_arr_${i})); // ${shortComment}`)
                 addCodeLine(`// LSTRING_END`)
 
@@ -465,7 +465,7 @@ const convertToArduino = (obj) => {
         // KEYCODE
         else if (line.startsWith('KEYCODE ')) {
             const value = line.substring(8)
-            const words = value.split(',')
+            const words = value.split(' ')
 
             if (words.length === 1) words.unshift('0')
 
@@ -491,7 +491,7 @@ const convertToArduino = (obj) => {
             const value = line.substring(5)
             const words = value.split(' ')
 
-            if (words[0] === 'START' && !inLoop) {
+            if ((words[0] === 'BEGIN' || words[0] === 'START') && !inLoop) {
                 inLoop = true
 
                 if (words.length === 2) {
