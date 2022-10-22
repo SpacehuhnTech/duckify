@@ -13,7 +13,7 @@ It supports a variety of keyboard layouts, including those for macOS, and is com
     <img height='36' style={{border:0,height:'36px'}} src='/img/kofi_button.png' border='0' alt='Buy Me a Coffee at ko-fi.com' />
 </a>
 &nbsp;
-<a href='https://discord.com/invite/238wu8g'>
+<a href='https://discord.com/invite/UZ83QgSdGc'>
 <img height='36' style={{border:0,height:'36px'}} src='/img/discord_button.png' alt='Discord Server button'/>
 </a>
 
