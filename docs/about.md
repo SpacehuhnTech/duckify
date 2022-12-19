@@ -8,7 +8,7 @@ title: About
 Duckify is a free and open-source converter for turning BadUSB scripts into Arduino sketches that can run on development boards like the Digispark.
 
 It supports a variety of keyboard layouts, including those for macOS, and is compatible with Ducky Script. 🚀
-
+<!--
 <a href='https://ko-fi.com/G2G75FA4V' target='_blank'>
     <img height='36' style={{border:0,height:'36px'}} src='/img/kofi_button.png' border='0' alt='Buy Me a Coffee at ko-fi.com' />
 </a>
@@ -16,6 +16,7 @@ It supports a variety of keyboard layouts, including those for macOS, and is com
 <a href='https://discord.com/invite/UZ83QgSdGc'>
 <img height='36' style={{border:0,height:'36px'}} src='/img/discord_button.png' alt='Discord Server button'/>
 </a>
+-->
 
 ## Usage
 
