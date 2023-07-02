@@ -34,3 +34,7 @@ The Digispark goes into a bootloader mode for 6 seconds when plugged in. You can
 4. Plugin your Digispark when told (check the output at the bottom)
 
 When done, the LED on your Digispark should start blinking.
+
+:::tip
+One user reported that on Kali Linux, they had to copy the file https://raw.githubusercontent.com/micronucleus/micronucleus/master/commandline/49-micronucleus.rules to the /etc/udev/rules.d folder.
+:::
