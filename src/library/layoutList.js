@@ -14,6 +14,7 @@ import win_fi from './win/fi.json'
 import win_fr from './win/fr.json'
 import win_gb from './win/gb.json'
 import win_gr from './win/gr.json'
+import win_hr from './win/hr.json'
 import win_hu from './win/hu.json'
 import win_ie from './win/ie.json'
 import win_in from './win/in.json'
@@ -41,6 +42,7 @@ import mac_cafr from './mac/ca-fr.json'
 import mac_chde from './mac/ch-de.json'
 import mac_chfr from './mac/ch-fr.json'
 import mac_cz from './mac/cz.json'
+import mac_de from './mac/de.json'
 import mac_dk from './mac/dk.json'
 import mac_ee from './mac/ee.json'
 import mac_es from './mac/es.json'
@@ -49,6 +51,7 @@ import mac_fi from './mac/fi.json'
 import mac_fr from './mac/fr.json'
 import mac_gb from './mac/gb.json'
 import mac_gr from './mac/gr.json'
+import mac_hr from './mac/hr.json'
 import mac_hu from './mac/hu.json'
 import mac_in from './mac/in.json'
 import mac_is from './mac/is.json'
@@ -67,8 +70,6 @@ import mac_si from './mac/si.json'
 import mac_sk from './mac/sk.json'
 import mac_tr from './mac/tr.json'
 import mac_ua from './mac/ua.json'
-
-import mac_de from './mac/de.json'
 import mac_us from './mac/us.json'
 
 const layoutList = {
@@ -162,6 +163,12 @@ const layoutList = {
             json: mac_gr,
             flag: '🇬🇷',
             country: 'gr',
+        },
+        {
+            name: 'hr',
+            json: mac_hr,
+            flag: '🇭🇷',
+            country: 'hr',
         },
         {
             name: 'hu',
@@ -374,6 +381,12 @@ const layoutList = {
             json: win_gr,
             flag: '🇬🇷',
             country: 'gr',
+        },
+        {
+            name: 'hr',
+            json: win_hr,
+            flag: '🇭🇷',
+            country: 'hr',
         },
         {
             name: 'hu',
