@@ -53,11 +53,6 @@ const config = {
             label: 'Docs',
           },
           {
-            href: 'https://learnbadusb.com',
-            label: 'Online Course',
-            position: 'right',
-          },
-          {
             href: 'https://huhn.me',
             label: 'More Tools',
             position: 'right',
