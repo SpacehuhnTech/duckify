@@ -8,7 +8,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Duckify',
   tagline: 'BadUSB Script Converter',
-  url: 'https://duckify.huhn.me',
+  url: 'https://duckify.spacehuhn.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -16,7 +16,7 @@ const config = {
   organizationName: 'spacehuhntech', // Usually your GitHub org/user name.
   projectName: 'duckify', // Usually your repo name.
 
-  scripts: [{src: 'https://plausible.io/js/script.js', defer: true, 'data-domain': 'duckify.huhn.me'}],
+  scripts: [{src: 'https://plausible.io/js/script.js', defer: true, 'data-domain': 'duckify.spacehuhn.com'}],
 
   presets: [
     [

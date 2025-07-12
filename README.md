@@ -1,7 +1,7 @@
 # Duckify
 
 A free and Open-Source web-app for converting BadUSB Script into Arduino code.  
-Visit [duckify.huhn.me](https://duckify.huhn.me) to see it in action.  
+Visit [duckify.spacehuhn.com](https://duckify.spacehuhn.com) to see it in action.  
 
 This app is based on [Docusaurus](https://docusaurus.io/), [React](https://reactjs.org/), and [Material-UI](https://mui.com/).
 
