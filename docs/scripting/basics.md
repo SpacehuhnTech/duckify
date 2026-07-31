@@ -36,7 +36,8 @@ STRING Hello World!
 | `# This is a comment` | Comment something. |
 | `DEFAULTDELAY 200` | Set the default delay between each line to 200 milliseconds. |
 | `DELAY 2000` | Wait 2 seconds. |
-| `GUI R` | Press the Windows key and the R key simultaneously to open the run window. |
+| `GUI R` | Press the Windows key and the R key simultaneously to open the run window. The word GUI represents the Super key—that is, the key with the Windows logo.|
 | `STRING notepad` | Type "notepad". |
 | `ENTER` | Press enter key to launch the Windows Notepad application. |
 | `STRING Hello World!` | Type "Hello World!" into the newly opened notepad window. |
+
